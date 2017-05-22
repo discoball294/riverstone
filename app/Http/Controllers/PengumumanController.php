@@ -7,78 +7,81 @@ use Illuminate\Http\Request;
 
 class PengumumanController extends Controller
 {
-    public function getListPengumuman(){
-        $pengumuman = Pengumuman::paginate(5);
-        if ($pengumuman){
-            return view('admin.pengumuman',[
-                'pengumumans' => $pengumuman
-            ]);
-        }else{
-            return view('admin.pengumuman', [
-                'pengumumans' => 'kosong'
-            ]);
-        }
+    public function index()
+    {
+        $pengumumans = Pengumuman::paginate(5);
+        return \View::make('admin.pengumuman.index', compact('pengumumans'));
 
     }
-    public function addPengumuman(Request $request){
+    public function create()
+    {
+        return view('admin.pengumuman.create');
+    }
+    public function store(Request $request){
         $validator = \Validator::make($request->all(), [
             'judul' => 'required|max:100',
             'pengumuman' => 'required|max:255',
             'tanggal' => 'required'
         ]);
-        if ($validator->passes()){
+        if ($validator->passes()) {
             $pengumuman = new Pengumuman();
             $pengumuman->judul = $request['judul'];
             $pengumuman->pengumuman = htmlspecialchars($request['pengumuman']);
             $pengumuman->tanggal = $request['tanggal'];
             $pengumuman->status = 'active';
-            if ($pengumuman->save()){
+            if ($pengumuman->save()) {
                 $request->session()->flash('alert-success', 'Pengumuman telah ditambahkan');
                 return redirect()->back();
-            }else{
-                $request->session()->flash('alert-warning', 'Barang gagal ditambahkan');
+            } else {
+                $request->session()->flash('alert-warning', 'Pengumuman gagal ditambahkan');
                 return redirect()->back();
             }
 
-        }else{
+        } else {
             return redirect()->back()->withErrors($validator)->withInput($request->input());
         }
     }
-
-    public function editPengumuman(Request $request, $id){
+    public function edit($id){
+        $pengumuman = Pengumuman::find($id);
+        return \View::make('admin.pengumuman.edit', compact('pengumuman'));
+    }
+    public function update(Request $request, $id){
         $validator = \Validator::make($request->all(), [
-            'edit_judul' => 'required|max:100',
-            'edit_pengumuman' => 'required|max:255',
-            'edit_tanggal' => 'required',
+            'judul' => 'required|max:100',
+            'pengumuman' => 'required|max:255',
+            'tanggal' => 'required',
             'edit_status' => 'required'
         ]);
-        if ($validator->passes()){
+        if ($validator->passes()) {
             $pengumuman = Pengumuman::find($id);
-            $pengumuman->judul = $request['edit_judul'];
-            $pengumuman->pengumuman = htmlspecialchars($request['edit_pengumuman']);
-            $pengumuman->tanggal = $request['edit_tanggal'];
+            $pengumuman->judul = $request['judul'];
+            $pengumuman->pengumuman = htmlspecialchars($request['pengumuman']);
+            $pengumuman->tanggal = $request['tanggal'];
             $pengumuman->status = $request['edit_status'];
-            if ($pengumuman->save()){
+            if ($pengumuman->save()) {
                 $request->session()->flash('alert-success', 'Pengumuman telah disimpan');
                 return redirect()->back();
-            }else{
+            } else {
                 $request->session()->flash('alert-warning', 'Pengumuman gagal disimpan');
                 return redirect()->back();
             }
 
-        }else{
+        } else {
             return redirect()->back()->withErrors($validator)->withInput($request->input());
         }
     }
 
-    public function deletePengumuman(Request $request, $id){
+    public function destroy(Request $request, $id){
         $pengumuman = Pengumuman::find($id);
-        if($pengumuman->delete()){
+        if ($pengumuman->delete()) {
             $request->session()->flash('alert-success', 'Barang telah dihapus');
             return redirect()->back();
-        }else {
+        } else {
             $request->session()->flash('alert-warning', 'Barang gagal dihapus');
             return redirect()->back();
         }
     }
+
+
+
 }

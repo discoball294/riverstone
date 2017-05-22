@@ -4,13 +4,13 @@
 @endsection
 @section('hero')
 
-    <div class="banner-state vertical-align text-center banner-hotel">
+    <div class="banner-state vertical-align text-center" style="background-image: url({{ asset($banner->gambar) }})">
         <div class="container-mid">
             <div class="container">
                 <div class="banner-title light-txt m-top-0">
                     <div>
-                        <h1 class="text-uppercase">think Relaxed</h1>
-                        <h3 class="text-uppercase m-top-10 semi-transparent theme-bg-space">Welcome to Massive</h3>
+                        <h1 class="text-uppercase">{{ $banner->text }}</h1>
+                        <h3 class="text-uppercase m-top-10 semi-transparent theme-bg-space">{{ $banner->text }}</h3>
                     </div>
                 </div>
             </div>
@@ -19,46 +19,24 @@
 @endsection
 @section('content')
     <!--book form-->
-    <div class="gray-bg p-tb-50">
+    <div class="gray-bg p-tb-10">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
 
-                    <form class="form-inline text-center ticket-register">
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="checkin" placeholder="Check In">
+                    <div class="full-width promo-box gray-bg m-bot-10">
+                        <div class="container">
+                            <div class="col-md-12">
+                                <div class="promo-info">
+                                    <h4>new <span class="theme-color">offer</span> for this <span class="theme-color">summer</span></h4>
+                                    <span>Nullam ut consectetur dolor. Sed sit amet iaculis nisi. Mauris ridiculus elementum non felis etewe blandit. </span>
+                                </div>
+                                <div class="promo-btn">
+                                    <a href="#" class="btn btn-medium btn-rounded btn-dark-solid  text-uppercase">Reservasi Sekarang</a>
+                                </div>
+                            </div>
                         </div>
-                        <div class="form-group">
-                            <input type="text" class="form-control" id="checkout" placeholder="Check Out">
-                        </div>
-                        <div class="form-group">
-                            <select class="form-control">
-                                <option>Select Room Type</option>
-                                <option>Premium Room</option>
-                                <option>Business Room</option>
-                                <option>Economy Room</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <select class="form-control">
-                                <option>Adult Nos</option>
-                                <option>01</option>
-                                <option>02</option>
-                                <option>03</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <select class="form-control">
-                                <option>Child Nos</option>
-                                <option>01</option>
-                                <option>02</option>
-                                <option>03</option>
-                            </select>
-                        </div>
-
-                        <button type="submit" class="btn btn-small  btn-theme-color btn-rounded">Book now</button>
-                    </form>
+                    </div>
 
                 </div>
             </div>
@@ -82,54 +60,23 @@
 
                 <!--post style 2 start-->
                 <div class="post-list catering-list text-center hotel-intro-box-resize">
-                    <div class="col-md-4">
-                        <div class="post-single">
-                            <div class="post-img">
-                                <img class="circle" src="img/hotel/hotcircle1.jpg" alt="">
-                            </div>
-                            <div class="post-desk">
-                                <h4 class="text-uppercase">
-                                    <a href="#">luxury living</a>
-                                </h4>
-                                <p>
-                                    Order for more than 10$ and get 15% discount
-                                    through ModestMenu
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="post-single">
-                            <div class="post-img">
-                                <img class="circle" src="img/hotel/hotcircle2.jpg" alt="">
-                            </div>
-                            <div class="post-desk">
-                                <h4 class="text-uppercase">
-                                    <a href="#">delicious food</a>
-                                </h4>
-                                <p>
-                                    Order for more than 10$ and get 15% discount
-                                    through ModestMenu
-                                </p>
+                    @foreach($layanan as $item_layanan)
+                        <div class="col-md-4">
+                            <div class="post-single">
+                                <div class="post-img">
+                                    <img class="circle" src="{{ asset($item_layanan->gambar) }}" alt="">
+                                </div>
+                                <div class="post-desk">
+                                    <h4 class="text-uppercase">
+                                        <a href="#">{{ $item_layanan->nama }}</a>
+                                    </h4>
+                                    <p>
+                                        {{ $item_layanan->deskripsi }}
+                                    </p>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="post-single">
-                            <div class="post-img">
-                                <img class="circle" src="img/hotel/hotcircle3.jpg" alt="">
-                            </div>
-                            <div class="post-desk">
-                                <h4 class="text-uppercase">
-                                    <a href="#">spa &amp; beauty care</a>
-                                </h4>
-                                <p>
-                                    Order for more than 10$ and get 15% discount
-                                    through ModestMenu
-                                </p>
-                            </div>
-                        </div>
-                    </div>
+                    @endforeach
                 </div>
                 <!--post style 2 end-->
             </div>
@@ -137,136 +84,90 @@
     </div>
     <!--intro post-->
     <!--room post-->
-    <div class="gray-bg p-bot-100 m-bot-100">
-        <div class="post-list-aside left-side post-p9-alt">
+    <div class="gray-bg p-bot-100">
+        @foreach($tipe_kamar as $item)
+            @php($fasilitas = $item->fasilitas)
 
-            <div class="post-single">
+            @if($loop->iteration % 2 != 0)
+                <div class="divider d-solid d-single text-center">
+                    <span class="dot"> </span>
+                </div>
+                <div class="post-list-aside left-side post-p9-alt" style="background: url({{ asset($item->gambar) }}) left 100px no-repeat!important;">
+                    <div class="post-single">
 
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-6 col-md-offset-6">
-                            <div class="post-desk">
-                                <div class="m-bot-30">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-6 col-md-offset-6">
+                                    <div class="post-desk">
+                                        <div class="m-bot-30">
 
-                                    <h4 class="text-uppercase">
-                                        cottage
-                                    </h4>
+                                            <h4 class="text-uppercase">
+                                                {{ $item->nama }}
+                                            </h4>
+                                        </div>
+
+                                        <p>
+                                            {{ $item->deskripsi }}
+                                        </p>
+                                        <p>
+                                        <ul>
+                                            @foreach($fasilitas as $f)
+                                                <li>{{ $f->fasilitas }}</li>
+                                            @endforeach
+                                        </ul>
+                                        </p>
+                                        <div>
+                                            <a href="#" class="btn btn-small btn-rounded btn-dark-solid  "> Details </a>
+                                        </div>
+                                    </div>
                                 </div>
 
-                                <p>
-                                    Cottage kami merupakan studio cottage dengan udara terbuka dan dilengkapi dengan
-                                    teras dan tempat parkir pribadi. Fasilitasnya antara lain:
-                                </p>
-                                <p>
-                                <ul>
-                                    <li>King Size Bed / Twin Double Bed</li>
-                                    <li>Air Conditioner</li>
-                                    <li>32" LED TV dengan 29 TV Channels</li>
-                                    <li>Free Wifi</li>
-                                    <li>Water Heater</li>
-                                    <li>Wardrobe</li>
-                                    <li>Private Parking Lot</li>
-                                </ul>
-                                </p>
-                                <div>
-                                    <a href="#" class="btn btn-small btn-rounded btn-dark-solid  "> Details </a>
-                                </div>
                             </div>
                         </div>
 
                     </div>
                 </div>
+            @else
+                <div class="divider d-solid d-single text-center">
+                    <span class="dot"> </span>
+                </div>
+                <div class="post-list-aside right-side post-p8" style="background: url({{ asset($item->gambar) }}) right 100px no-repeat!important;">
+                    <div class="post-single">
 
-            </div>
-        </div>
-        <div class="divider d-solid d-single text-center">
-            <span class="dot"> </span>
-        </div>
-        <div class="post-list-aside right-side post-p8 ">
-            <div class="post-single">
+                        <div class="container">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="post-desk">
+                                        <div class="m-bot-30">
+                                            <span class="post-sub-title text-uppercase">room</span>
+                                            <h4 class="text-uppercase">
+                                                {{ $item->nama }}
+                                            </h4>
+                                        </div>
 
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="post-desk">
-                                <div class="m-bot-30">
-                                    <span class="post-sub-title text-uppercase">room</span>
-                                    <h4 class="text-uppercase">
-                                        Superior Deluxe
-                                    </h4>
+                                        <p>
+                                            {{ $item->deskripsi }}
+                                        </p>
+                                        <ul>
+                                            @foreach($fasilitas as $f)
+                                                <li>{{ $f->fasilitas }}</li>
+                                            @endforeach
+                                        </ul>
+                                        <div>
+                                            <a href="#" class="btn btn-small btn-rounded btn-dark-solid  "> Details </a>
+                                        </div>
+                                    </div>
                                 </div>
 
-                                <p>
-                                    Superior Deluxe merupakan bagian dari Hotel kami dan Superior Deluxe merupakan kamar
-                                    dengan view yang bagus dari dalam kamarnya. Fasilitasnya antara lain:
-                                </p>
-                                <ul>
-                                    <li>King Size Bed</li>
-                                    <li>Air Conditioner</li>
-                                    <li>32" LED TV dengan 29 TV Channels</li>
-                                    <li>Free Wifi</li>
-                                    <li>Water Heater</li>
-                                    <li>Wardrobe</li>
-                                    <li>Free Minibar</li>
-                                </ul>
-                                <div>
-                                    <a href="#" class="btn btn-small btn-rounded btn-dark-solid  "> Details </a>
-                                </div>
                             </div>
                         </div>
 
                     </div>
                 </div>
-
-            </div>
-        </div>
+            @endif
+        @endforeach
     </div>
     <!--room post-->
-    <!--amenities-->
-    <div class="page-content gray-bg m-top-35">
-        <div class="container">
-            <div class="row">
-
-                <div class="heading-title border-short-bottom text-center ">
-                    <h3 class="text-uppercase">Hotel Amenities</h3>
-
-                    <p class="half-txt p-top-20">Nam libero tempore, cum soluta nobis est eligendi optio cumque
-                        nihil impedit quo minus id quod maxime placeat facere possimus. Nam libero tempore, cum
-                        soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat
-                        facere possimus.</p>
-                </div>
-                <div class="col-md-3">
-                    <ul class="icon-list amenities-list">
-                        <li><i class="fa fa-check"></i> Luxury Swimming Pool</li>
-                        <li><i class="fa fa-check"></i> 24/7 Laundry Service</li>
-                        <li><i class="fa fa-check"></i> Central Air Condition</li>
-                    </ul>
-                </div>
-                <div class="col-md-3 amenities-list">
-                    <ul class="icon-list">
-                        <li><i class="fa fa-check"></i> Guest Car Parking</li>
-                        <li><i class="fa fa-check"></i> Luxury Swimming Pool</li>
-                        <li><i class="fa fa-check"></i> Safari and Surfing</li>
-                    </ul>
-                </div>
-                <div class="col-md-3 amenities-list">
-                    <ul class="icon-list">
-                        <li><i class="fa fa-check"></i> Gym and Beauty Care</li>
-                        <li><i class="fa fa-check"></i> Conference Center</li>
-                        <li><i class="fa fa-check"></i> Bar &amp; Restaurant</li>
-                    </ul>
-                </div>
-                <div class="col-md-3 amenities-list">
-                    <ul class="icon-list">
-                        <li><i class="fa fa-check"></i> Gym and Beauty Care</li>
-                        <li><i class="fa fa-check"></i> Conference Center</li>
-                        <li><i class="fa fa-check"></i> Bar &amp; Restaurant</li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--amenities-->
     <!--tabs-->
     <div class="page-content tab-parallax">
         <div class="container">
@@ -285,102 +186,25 @@
                     <!--tabs square start-->
                     <section class="icon-box-tabs ">
                         <ul class="nav nav-pills">
-                            <li class="active">
-                                <a data-toggle="tab" href="#tab-15">
-                                    <i class="icon-wine"> </i>
+                            @foreach($news as $item)
+                            <li class="@if($loop->iteration == 1){{ 'active' }}@endif">
+                                <a data-toggle="tab" href="#tab-{{ $loop->iteration }}">
+                                    <i class="icon-documents"> </i>
                                 </a>
                             </li>
-                            <li class="">
-                                <a data-toggle="tab" href="#tab-16">
-                                    <i class="icon-documents"></i>
-                                </a>
-                            </li>
-                            <li class="">
-                                <a data-toggle="tab" href="#tab-17">
-                                    <i class="icon-lightbulb"></i>
-                                </a>
-                            </li>
-                            <li class="">
-                                <a data-toggle="tab" href="#tab-18">
-                                    <i class="icon-circle-compass"></i>
-                                </a>
-                            </li>
-
-                            <li class="">
-                                <a data-toggle="tab" href="#tab-19">
-                                    <i class="icon-telescope"></i>
-                                </a>
-                            </li>
-
+                            @endforeach
                         </ul>
                         <div class="panel-body">
                             <div class="tab-content">
-                                <div id="tab-15" class="tab-pane active">
+                                @foreach($news as $item)
+                                <div id="tab-{{ $loop->iteration }}" class="tab-pane @if($loop->iteration == 1){{ 'active' }}@endif">
                                     <div class="heading-title-alt">
-                                        <span class="heading-sub-title-alt text-uppercase theme-color-">12 July 2015</span>
-                                        <h2 class="text-uppercase">fashion show and star night</h2>
+                                        <span class="heading-sub-title-alt text-uppercase theme-color-">{{ $item->tanggal }}</span>
+                                        <h2 class="text-uppercase">{{ $item->judul }}</h2>
                                     </div>
-                                    In quis scelerisque velit. Proin pellentesque neque ut scelerisque dapibus. Praesent
-                                    elementum feugiat dignissim. Nunc placerat mi id nisi interdum mollis. Praesent
-                                    pharetra, justo ut scelerisque mattis, leo quam aliquet diam, congue laoreet elit
-                                    metus eget diam. Proin ac metus diam. In quis scelerisque velit. Proin pellentesque
-                                    neque ut scelerisque dapibus. Praesent elementum feugiat dignissim. Nunc placerat mi
-                                    id nisi interdum mollis. Praesent pharetra, justo ut scelerisque mattis, leo quam
-                                    aliquet diam, congue laoreet elit metus eget diam. Proin ac metus diam.
+                                    {{ $item->pengumuman }}
                                 </div>
-                                <div id="tab-16" class="tab-pane">
-                                    <div class="heading-title-alt">
-                                        <span class="heading-sub-title-alt text-uppercase theme-color-">work for fun</span>
-                                        <h2 class="text-uppercase">Massive UI collection</h2>
-                                    </div>
-                                    Leo quam aliquet diam, congue laoreet elit metus eget diam. Proin ac metus diam. In
-                                    quis scelerisque velit. Proin pellentesque neque ut scelerisque dapibus. Praesent
-                                    elementum feugiat dignissim. Nunc placerat mi id nisi interdum mollis. Praesent
-                                    pharetra, justo ut scelerisque mattis, leo quam aliquet diam, congue laoreet elit
-                                    metus eget diam. Proin ac metus diam. In quis scelerisque velit. Proin pellentesque
-                                    neque ut scelerisque dapibus. Praesent elementum feugiat dignissim. Nunc placerat mi
-                                    id nisi interdum mollis.
-                                </div>
-                                <div id="tab-17" class="tab-pane">
-                                    <div class="heading-title-alt">
-                                        <span class="heading-sub-title-alt text-uppercase theme-color-">Multipurpose</span>
-                                        <h2 class="text-uppercase">Huge possibilities</h2>
-                                    </div>
-                                    congue laoreet elit metus eget diam. Proin ac metus diam. In quis scelerisque velit.
-                                    Proin pellentesque neque ut scelerisque dapibus. Praesent elementum feugiat
-                                    dignissim. Nunc placerat mi id nisi interdum mollis. Praesent pharetra, justo ut
-                                    scelerisque mattis, leo quam aliquet diam, congue laoreet elit metus eget diam.
-                                    Proin ac metus diam. In quis scelerisque velit. Proin pellentesque neque ut
-                                    scelerisque dapibus. Praesent elementum feugiat dignissim. Nunc placerat mi id nisi
-                                    interdum mollis.
-                                </div>
-                                <div id="tab-18" class="tab-pane">
-                                    <div class="heading-title-alt">
-                                        <span class="heading-sub-title-alt text-uppercase theme-color-">sky is the limit</span>
-                                        <h2 class="text-uppercase">we work together for fun</h2>
-                                    </div>
-                                    Proin ac metus diam. In quis scelerisque velit. Leo quam aliquet diam, congue
-                                    laoreet elit metus eget diam. Proin pellentesque neque ut scelerisque dapibus.
-                                    Praesent elementum feugiat dignissim. Nunc placerat mi id nisi interdum mollis.
-                                    Praesent pharetra, justo ut scelerisque mattis, leo quam aliquet diam, congue
-                                    laoreet elit metus eget diam. Proin ac metus diam. In quis scelerisque velit. Proin
-                                    pellentesque neque ut scelerisque dapibus. Praesent elementum feugiat dignissim.
-                                    Nunc placerat mi id nisi interdum mollis.
-                                </div>
-                                <div id="tab-19" class="tab-pane">
-                                    <div class="heading-title-alt">
-                                        <span class="heading-sub-title-alt text-uppercase theme-color-">responsive</span>
-                                        <h2 class="text-uppercase">Unlimited shortcode</h2>
-                                    </div>
-                                    Kusto ut scelerisque mattis, leo quam aliquet diam, congue laoreet elit metus eget
-                                    diam. Proin ac metus diam. In quis scelerisque velit. Proin pellentesque neque ut
-                                    scelerisque dapibus. Praesent elementum feugiat dignissim. Nunc placerat mi id nisi
-                                    interdum mollis. Praesent pharetra, justo ut scelerisque mattis, leo quam aliquet
-                                    diam, congue laoreet elit metus eget diam. Proin ac metus diam. In quis scelerisque
-                                    velit. Proin pellentesque neque ut scelerisque dapibus. Praesent elementum feugiat
-                                    dignissim. Nunc placerat mi id nisi interdum mollis.
-                                </div>
-
+                                @endforeach
                             </div>
                         </div>
                     </section>
@@ -392,6 +216,74 @@
         </div>
     </div>
     <!--tabs-->
+    <!--reservation-->
+    <div class="page-content gray-bg">
+        <div class="container">
+            <div class="row">
+                <!--post style 6 start-->
+                <div class="post-list-aside">
+                    <div class="post-single">
+                        <div class="col-md-6">
+                            <div class="post-img">
+                                <img src="img/restaurant/food-glass.png" alt="">
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="post-desk">
+                                <div class="heading-title-alt text-left">
+                                    <span class="heading-sub-title text-uppercase theme-color">Reservation</span>
+                                    <h3 class="text-uppercase">book a table</h3>
+                                </div>
+                                <p>
+                                    Lid est laborum dolo rumes fugats untras. Etharums ser quidem rerum facilis dolores nemis omnis fugats minima rerums unsers sadips amets.
+                                </p>
+
+                                <form class="magazine-grid login m-top-30 " action="#" method="post">
+
+                                    <div class="row">
+                                        <div class="form-group col-md-12">
+                                            <input type="text" class="form-control" placeholder="Nama">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <input type="email" class="form-control" placeholder="Email">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <input type="text" class="form-control" placeholder="Nomor Telepon">
+                                        </div>
+
+                                        <div class="form-group col-md-12">
+                                            <select class="form-control">
+                                                <option>Pilih Tipe Kamar</option>
+                                                @foreach($tipe_kamar as $item)
+                                                    <option>{{ $item->nama }}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <input type="text" name="checkin" class="form-control pickdate" placeholder="Check In">
+                                        </div>
+                                        <div class="form-group col-md-6">
+                                            <input type="text" name="checkout" class="form-control pickdate" placeholder="Check Out">
+                                        </div>
+
+                                        <div class="form-group col-md-12">
+                                            <button class="btn btn-small btn-dark-solid full-width btn-rounded" value="book a table now">book a table now </button>
+                                        </div>
+                                    </div>
+
+
+                                </form>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--post style 6 end-->
+            </div>
+        </div>
+    </div>
+    <!--reservation-->
     <!--contact-->
     <div class="page-content">
 
@@ -448,57 +340,14 @@
                     </div>
                 </div>
             </div>
-
-            <div class="row">
-
-                <div class="col-md-10 col-md-offset-1">
-                    <form method="post" action="#" id="form" role="form" class="contact-comments">
-
-                        <div class="row">
-
-                            <div class="col-md-6 ">
-
-                                <div class="form-group">
-                                    <!-- Name -->
-                                    <input type="text" name="name" id="name" class=" form-control" placeholder="Name *"
-                                           maxlength="100" required="">
-                                </div>
-                                <div class="form-group">
-                                    <!-- Email -->
-                                    <input type="email" name="email" id="email" class=" form-control"
-                                           placeholder="Email *" maxlength="100" required="">
-                                </div>
-                                <div class="form-group">
-                                    <!-- phone -->
-                                    <input type="text" name="phone" id="phone" class=" form-control" placeholder="Phone"
-                                           maxlength="100">
-                                </div>
-                            </div>
-
-                            <div class="col-md-6 form-group">
-                                <div class="form-group">
-                                    <!-- Comment -->
-                                    <textarea name="text" id="text" class="cmnt-text form-control" placeholder="Comment"
-                                              maxlength="400"></textarea>
-                                </div>
-                                <div class="form-group full-width">
-                                    <button type="submit" class="btn btn-small btn-dark-solid ">
-                                        Send Message
-                                    </button>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </form>
-                </div>
-            </div>
         </div>
 
     </div>
     <!--contact-->
     <div id="grey-map" class="height-450" style="position: relative; overflow: hidden;">
-        <iframe width="100%" height="100%" frameborder="0" style="border:0" src="https://www.google.com/maps/embed/v1/place?q=Hotel%20RiverStone&key=AIzaSyBPJJfVu15V7HogRaQIqg46GsqX6nYSoBs" allowfullscreen></iframe>
+        <iframe width="100%" height="100%" frameborder="0" style="border:0"
+                src="https://www.google.com/maps/embed/v1/place?q=Hotel%20RiverStone&key=AIzaSyBPJJfVu15V7HogRaQIqg46GsqX6nYSoBs"
+                allowfullscreen></iframe>
     </div>
 
 @endsection

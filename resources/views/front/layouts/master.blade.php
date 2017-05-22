@@ -25,6 +25,8 @@
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style-responsive.css') }}" rel="stylesheet">
     <link href="{{ asset('css/green-theme.css') }}" rel="stylesheet">
+    <link href="{{ asset('pickadate/themes/classic.css') }}" rel="stylesheet">
+    <link href="{{ asset('pickadate/themes/classic.date.css') }}" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -79,9 +81,19 @@
 <script src="{{ asset('js/smooth.js') }}"></script>
 <script src="{{ asset('js/wow.min.js') }}"></script>
 <script src="{{ asset('js/imagesloaded.js') }}"></script>
+<script src="{{ asset('pickadate/picker.js') }}"></script>
+<script src="{{ asset('pickadate/picker.date.js') }}"></script>
 <!--common scripts-->
 <script src="{{ asset('js/scripts.js?6') }}"></script>
-
+<script>
+    $(document).ready(function (e) {
+        $('.pickdate').pickadate({
+            format: 'd mmmm, yyyy',
+            formatSubmit: 'yyyy-mm-dd',
+            hiddenPrefix: 'hidden_'
+        });
+    })
+</script>
 
 </body>
 </html>
