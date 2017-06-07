@@ -1,6 +1,6 @@
 @extends('admin.layouts.master')
 @section('title')
-    <title>Pengumuman - Riverstone - Hotel & cottage - Admin Page</title>
+    <title>Edit Fasilitas - Riverstone - Hotel & cottage - Admin Page</title>
 @endsection
 @section('plugins_css')
     <link href="{{ asset('admin-assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css') }}"

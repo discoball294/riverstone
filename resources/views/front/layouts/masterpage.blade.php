@@ -16,16 +16,18 @@
 
 
     <link href='http://fonts.googleapis.com/css?family=Abel|Source+Sans+Pro:400,300,300italic,400italic,600,600italic,700,700italic,900,900italic,200italic,200' rel='stylesheet' type='text/css'>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/font-awesome.min.css" rel="stylesheet">
-    <link href="css/magnific-popup.css" rel="stylesheet">
-    <link href="css/shortcodes/shortcodes.css" rel="stylesheet">
-    <link href="css/owl.carousel.css" rel="stylesheet">
-    <link href="css/owl.theme.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-    <link href="css/style-responsive.css" rel="stylesheet">
-    <link href="css/default-theme.css" rel="stylesheet">
-
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/magnific-popup.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/shortcodes/shortcodes.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/owl.carousel.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/owl.theme.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/style-responsive.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/green-theme.css') }}" rel="stylesheet">
+    <link href="{{ asset('pickadate/themes/classic.css') }}" rel="stylesheet">
+    <link href="{{ asset('pickadate/themes/classic.date.css') }}" rel="stylesheet">
+    <link href="{{ asset('admin-assets/plugins/bootstrap-sweetalert/sweetalert.css') }}" rel="stylesheet" type="text/css"/>
     <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
     <script src="js/html5shiv.js"></script>
@@ -65,22 +67,37 @@
 
 
 <!-- Placed js at the end of the document so the pages load faster -->
-<script src="js/jquery-1.10.2.min.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/menuzord.js"></script>
-<script src="js/jquery.flexslider-min.js"></script>
-<script src="js/owl.carousel.min.js"></script>
-<script src="js/jquery.isotope.js"></script>
-<script src="js/jquery.magnific-popup.min.js"></script>
-<script src="js/jquery.countTo.js"></script>
-<script src="js/smooth.js"></script>
-<script src="js/wow.min.js"></script>
-
-<script src="js/imagesloaded.js"></script>
+<script src="{{ asset('js/jquery-1.10.2.min.js') }}"></script>
+<script src="{{ asset('js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('js/menuzord.js') }}"></script>
+<script src="{{ asset('js/jquery.flexslider-min.js') }}"></script>
+<script src="{{ asset('js/owl.carousel.min.js') }}"></script>
+<script src="{{ asset('js/jquery.isotope.js') }}"></script>
+<script src="{{ asset('js/jquery.magnific-popup.min.js') }}"></script>
+<script src="{{ asset('js/jquery.countTo.js') }}"></script>
+<script src="{{ asset('js/jquery.countdown.js') }}"></script>
+<script src="{{ asset('js/visible.js') }}"></script>
+<script src="{{ asset('js/smooth.js') }}"></script>
+<script src="{{ asset('js/wow.min.js') }}"></script>
+<script src="{{ asset('js/imagesloaded.js') }}"></script>
+<script src="{{ asset('pickadate/picker.js') }}"></script>
+<script src="{{ asset('pickadate/picker.date.js') }}"></script>
+<script src="{{ asset('admin-assets/plugins/bootstrap-sweetalert/sweetalert.js') }}"
+        type="text/javascript"></script>
 <!--common scripts-->
-<script src="js/scripts.js?6"></script>
+<script src="{{ asset('js/scripts.js?6') }}"></script>
 
-
+<script>
+    $(document).ready(function (e) {
+        $('.pickdate').pickadate({
+            format: 'd mmmm, yyyy',
+            formatSubmit: 'yyyy-mm-dd',
+            hiddenPrefix: 'hidden_',
+            min: true
+        });
+    })
+</script>
+@yield('script')
 
 </body>
 </html>

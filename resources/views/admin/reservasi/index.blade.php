@@ -1,6 +1,6 @@
 @extends('admin.layouts.master')
 @section('title')
-    <title>Contact - Riverstone - Hotel & cottage - Admin Page</title>
+    <title>Reservasi - Riverstone - Hotel & cottage - Admin Page</title>
 @endsection
 @section('plugins_css')
     <link href="{{ asset('admin-assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css') }}"
@@ -18,7 +18,7 @@
 @section('content')
     <div class="page-content">
         <!-- BEGIN PAGE HEADER-->
-        <h1 class="page-title"> Contact
+        <h1 class="page-title"> Reservasi
             <small></small>
         </h1>
         @foreach(['danger','success','warning','info'] as $msg)
@@ -49,7 +49,7 @@
                     <i class="fa fa-angle-right"></i>
                 </li>
                 <li>
-                    <a href="#">Contact</a>
+                    <a href="#">Reservasi</a>
                 </li>
             </ul>
         </div>
@@ -60,12 +60,12 @@
                 <div class="portlet light portlet-fit ">
                     <div class="portlet-title">
                         <div class="caption">
-                            <i class="icon-equalizer font-red"></i>
-                            <span class="caption-subject font-red sbold uppercase">List Contact</span>
+                            <i class="icon-info font-red"></i>
+                            <span class="caption-subject font-red sbold uppercase">List Reservasi</span>
                         </div>
                         <div class="actions">
                             <div class="btn-group btn-group-devided" data-toggle="buttons">
-                                <a href="{{ route('contact.create') }}" data-toggle="modal"
+                                <a href="{{ route('rooms.create') }}" data-toggle="modal"
                                    class="btn btn-circle btn-outline green-seagreen"><i class="fa fa-plus"></i>
                                     Tambah</a>
 
@@ -73,13 +73,13 @@
 
                         </div>
                         <ul class="pagination pagination-circle" style="margin-right: 10px">
-                            <li><a href="{{ $contact->url(1) }}">«</a></li>
-                            @if($contact->lastPage() > 1)
-                                @for($i = 1; $i <= $contact->lastPage(); $i++)
-                                    <li><a href="{{ $contact->url($i) }}">{{ $i }}</a></li>
+                            <li><a href="{{ $reservasi->url(1) }}">«</a></li>
+                            @if($reservasi->lastPage() > 1)
+                                @for($i = 1; $i <= $reservasi->lastPage(); $i++)
+                                    <li><a href="{{ $reservasi->url($i) }}">{{ $i }}</a></li>
                                 @endfor
                             @endif
-                            <li><a href="{{ $contact->url($contact->lastPage()) }}">»</a></li>
+                            <li><a href="{{ $reservasi->url($reservasi->lastPage()) }}">»</a></li>
                         </ul>
 
                     </div>
@@ -88,33 +88,32 @@
                             <table class="table table-hover table-light">
                                 <thead>
                                 <tr class="uppercase">
-                                    <th> #</th>
-                                    <th> Tipe</th>
-                                    <th> Konten</th>
+                                    <th> Booking ID#</th>
+                                    <th> Guest</th>
+                                    <th> Payment Status</th>
                                     <th> Action</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($contact as $item)
+                                @foreach($reservasi as $item)
                                     <tr>
                                         <td>{{ $item->id }}</td>
-                                        <td> {{ $item->tipe }}</td>
-                                        <td> {{ $item->content }}</td>
+                                        <td> {{ $item->nama }}</td>
+                                        <td>
+                                            @if($item->status==0)
+                                                <span class="label label-sm label-danger"> Not Confirmed </span>
+                                            @else
+                                                <span class="label label-sm label-success"> Confirmed </span>
+                                            @endif
+                                        </td>
 
                                         <td>
-                                            <form action="{{ route('contact.destroy', ['id' => $item->id ]) }}"
+                                            <form action="{{ route('payment-confirmation') }}"
                                                   method="post" class="delete">
-                                                <div class="btn-group btn-group-circle">
-                                                    <a href="{{ route('contact.edit', $item->id) }}"
-                                                       data-toggle="modal" type="button"
-                                                       class="btn btn-outline green btn-sm edit-btn">Edit <i
-                                                                class="fa fa-edit"></i></a>
-
-                                                    <button type="submit" class="btn btn-outline red btn-sm btn-delete"><i
-                                                                class="fa fa-trash-o"></i> Delete
-                                                    </button>
-                                                </div>
-                                                {{ method_field('DELETE') }}
+                                                    <a type="button" href="{{ route('detail-reservasi', ['reservasi_id'=>$item->id]) }}" class="btn btn-outline red btn-sm btn-delete">
+                                                        <i
+                                                                class="fa fa-info"></i> Details
+                                                    </a>
                                                 {{ csrf_field() }}
                                             </form>
                                         </td>
@@ -195,12 +194,10 @@
             $('.edit-btn').click(function (e) {
                 var pengumuman_id = $(this).closest('tr').find('#pengumuman_id').text();
                 var pengumuman_judul = $(this).closest('tr').find('#pengumuman_judul').text();
-                var pengumuman_isi = $(this).closest('tr').find('#pengumuman_isi').text();
                 var pengumuman_tanggal = $(this).closest('tr').find('#pengumuman_tanggal').text();
                 var pengumuman_status = $(this).closest('td').find('#pengumuman_status').val();
                 console.log('clicked');
                 $('#edit_judul').val(pengumuman_judul);
-                $('#edit_pengumuman').val(pengumuman_isi);
                 $('#edit_tanggal').val(pengumuman_tanggal);
                 $('#edit_status').val(pengumuman_status);
                 $('#form-edit').attr('action', '/admins/pengumuman/edit/' + pengumuman_id);
@@ -218,7 +215,7 @@
                         closeOnConfirm: false,
                         closeOnCancel: true
                     },
-                    function(isConfirm) {
+                    function (isConfirm) {
                         if (isConfirm) {
                             form.submit();
                         } else {

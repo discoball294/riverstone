@@ -4,7 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Room;
 use App\RoomCategory;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class RoomController extends Controller
 {
@@ -12,8 +14,8 @@ class RoomController extends Controller
     {
         $rooms = \DB::table('room')
             ->join('room_category', 'room.room_category_id', '=', 'room_category.id')
-            ->select('room.*', 'room_category.nama')->orderBy('room.id','asc')
-            ->paginate(5);
+            ->select('room.*', 'room_category.nama')->orderBy('room.id', 'asc')
+            ->paginate(10);
         //dd($rooms);
         return \View::make('admin.room.index', compact('rooms'));
     }
@@ -27,13 +29,11 @@ class RoomController extends Controller
     public function store(Request $request)
     {
         $validator = \Validator::make($request->all(), [
-            'room_category' => 'required',
-            'harga' => 'required|max:12'
+            'room_category' => 'required'
         ]);
         if ($validator->passes()) {
             $room = new Room();
             $room->room_category_id = $request['room_category'];
-            $room->harga = $request['harga'];
             if ($room->save()) {
                 $request->session()->flash('alert-success', 'Kamar telah ditambahkan');
                 return redirect()->back();
@@ -52,19 +52,17 @@ class RoomController extends Controller
     {
         $rooms = Room::find($id);
         $room_category = RoomCategory::all();
-        return \View::make('admin.room.edit', compact('rooms','room_category'));
+        return \View::make('admin.room.edit', compact('rooms', 'room_category'));
     }
 
     public function update(Request $request, $id)
     {
         $validator = \Validator::make($request->all(), [
-            'room_category' => 'required',
-            'harga' => 'required|max:12'
+            'room_category' => 'required'
         ]);
         if ($validator->passes()) {
             $room = Room::find($id);
             $room->room_category_id = $request['room_category'];
-            $room->harga = $request['harga'];
             if ($room->save()) {
                 $request->session()->flash('alert-success', 'Kamar telah disimpan');
                 return redirect()->back();
@@ -88,5 +86,41 @@ class RoomController extends Controller
             $request->session()->flash('alert-warning', 'Barang gagal dihapus');
             return redirect()->back();
         }
+    }
+
+    public function availableRooms(Request $request)
+    {
+        $validator = \Validator::make($request->all(), [
+            'jumlah_ruang' => 'required',
+            'jumlah_orang' => 'required',
+            'hidden_checkin_submit' => 'required',
+            'hidden_checkout_submit' => 'required'
+        ]);
+        if ($validator->passes()) {
+            $check_in = Carbon::createFromFormat('Y-m-d', $request['hidden_checkin_submit'])->timestamp;
+            $check_out = Carbon::createFromFormat('Y-m-d', $request['hidden_checkout_submit'])->timestamp;
+            $send_checkin = $request['hidden_checkin_submit'];
+            $send_checkout = $request['hidden_checkout_submit'];
+            $jumlah_ruang = $request['jumlah_ruang'];
+            $jumlah_orang = $request['jumlah_orang'];
+            $available_rooms = DB::table('room')
+                ->select('room.id AS room_id', 'room_category.*')
+                ->leftJoin('detail_reservasi', 'detail_reservasi.room_id', '=', 'room.id')
+                ->leftJoin('room_category', 'room.room_category_id', '=', 'room_category.id')
+                ->whereNull('detail_reservasi.id')
+                ->orWhere(function ($query) use ($check_in, $check_out) {
+                    $query->where('detail_reservasi.check_out', '>=', $check_in)
+                        ->where('detail_reservasi.check_in', '>=', $check_out);
+                })
+                ->orWhere(function ($query) use ($check_in, $check_out) {
+                    $query->where('detail_reservasi.check_out', '<=', $check_in)
+                        ->where('detail_reservasi.check_out', '<=', $check_out);
+                })->distinct()->get();
+            //dd($available_rooms);
+            return view('front.search-room', compact('available_rooms', 'send_checkin', 'send_checkout', 'jumlah_orang', 'jumlah_ruang'));
+        }
+        else {
+        return redirect()->back()->withErrors($validator)->withInput($request->input());
+    }
     }
 }

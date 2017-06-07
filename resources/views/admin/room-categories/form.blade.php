@@ -9,6 +9,16 @@
                   name="deskripsi">{{ @$room_categories->deskripsi }}</textarea>
         <label for="form_control_1">Deskripsi</label>
     </div>
+    <div class="form-group form-md-line-input">
+        <input type="text" class="form-control"
+               id="form_control_1" name="harga" value="{{ @$room_categories->harga }}">
+        <label for="form_control_1">Harga</label>
+    </div>
+    <div class="form-group form-md-line-input">
+        <input type="text" class="form-control"
+               id="form_control_1" name="max_person" value="{{ @$room_categories->max_person }}">
+        <label for="form_control_1">Max Person</label>
+    </div>
     <div class="form-group form-md-checkboxes">
         <label>Fasilitas</label>
         <div class="md-checkbox-inline">
@@ -25,7 +35,7 @@
     </div>
     <div class="fileinput fileinput-new" data-provides="fileinput">
         <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
-            <img src="{{ asset(@$room_categories->gambar) }}" alt=""></div>
+            <img src="{{ asset(@$room_categories->gambar) }}" alt="" onerror="this.onerror=null;this.src='{{ asset('admin-assets/img/default.jpg') }}';"></div>
         <div class="fileinput-preview fileinput-exists thumbnail"
              style="max-width: 200px; max-height: 150px; line-height: 10px;"></div>
         <div>

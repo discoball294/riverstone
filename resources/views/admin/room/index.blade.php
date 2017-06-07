@@ -1,6 +1,6 @@
 @extends('admin.layouts.master')
 @section('title')
-    <title>Pengumuman - Riverstone - Hotel & cottage - Admin Page</title>
+    <title>Kamar - Riverstone - Hotel & cottage - Admin Page</title>
 @endsection
 @section('plugins_css')
     <link href="{{ asset('admin-assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css') }}"
@@ -90,7 +90,6 @@
                                 <tr class="uppercase">
                                     <th> No Kamar</th>
                                     <th> Tipe Ruang</th>
-                                    <th> Harga</th>
                                     <th> Action</th>
                                 </tr>
                                 </thead>
@@ -99,7 +98,6 @@
                                     <tr>
                                         <td id="pengumuman_id">{{ $room->id }}</td>
                                         <td id="pengumuman_judul"> {{ $room->nama }}</td>
-                                        <td id="pengumuman_isi"> {{ $room->harga }}</td>
 
                                         <td>
                                             <form action="{{ route('rooms.destroy', ['id' => $room->id ]) }}"
@@ -195,12 +193,10 @@
             $('.edit-btn').click(function (e) {
                 var pengumuman_id = $(this).closest('tr').find('#pengumuman_id').text();
                 var pengumuman_judul = $(this).closest('tr').find('#pengumuman_judul').text();
-                var pengumuman_isi = $(this).closest('tr').find('#pengumuman_isi').text();
                 var pengumuman_tanggal = $(this).closest('tr').find('#pengumuman_tanggal').text();
                 var pengumuman_status = $(this).closest('td').find('#pengumuman_status').val();
                 console.log('clicked');
                 $('#edit_judul').val(pengumuman_judul);
-                $('#edit_pengumuman').val(pengumuman_isi);
                 $('#edit_tanggal').val(pengumuman_tanggal);
                 $('#edit_status').val(pengumuman_status);
                 $('#form-edit').attr('action', '/admins/pengumuman/edit/' + pengumuman_id);

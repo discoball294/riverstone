@@ -7,7 +7,7 @@
     </div>
     <div class="fileinput fileinput-new" data-provides="fileinput">
         <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
-            <img src="{{ asset(@$banner->gambar) }}" alt=""></div>
+            <img src="{{ asset(@$banner->gambar) }}" alt="" onerror="this.onerror=null;this.src='{{ asset('admin-assets/img/default.jpg') }}';"></div>
         <div class="fileinput-preview fileinput-exists thumbnail"
              style="max-width: 200px; max-height: 150px; line-height: 10px;"></div>
         <div>

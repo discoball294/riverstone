@@ -9,10 +9,6 @@
         </select>
         <label for="form_control_1">Tipe Kamar</label>
     </div>
-    <div class="form-group form-md-line-input">
-        <input type="text" class="form-control"
-               id="form_control_1" name="harga" value="{{ @$rooms->harga }}">
-        <label for="form_control_1">Harga</label>
-    </div>
+
 
 </div>

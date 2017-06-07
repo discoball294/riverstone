@@ -9,7 +9,7 @@ class LayananController extends Controller
 {
     public function index()
     {
-        $layanan = Layanan::paginate(5);
+        $layanan = Layanan::paginate(10);
         return \View::make('admin.layanan.index', compact('layanan'));
     }
 

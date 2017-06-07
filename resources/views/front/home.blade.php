@@ -28,11 +28,13 @@
                         <div class="container">
                             <div class="col-md-12">
                                 <div class="promo-info">
-                                    <h4>new <span class="theme-color">offer</span> for this <span class="theme-color">summer</span></h4>
+                                    <h4>new <span class="theme-color">offer</span> for this <span class="theme-color">summer</span>
+                                    </h4>
                                     <span>Nullam ut consectetur dolor. Sed sit amet iaculis nisi. Mauris ridiculus elementum non felis etewe blandit. </span>
                                 </div>
                                 <div class="promo-btn">
-                                    <a href="#" class="btn btn-medium btn-rounded btn-dark-solid  text-uppercase">Reservasi Sekarang</a>
+                                    <a href="#reservation" class="btn btn-medium btn-rounded btn-dark-solid  text-uppercase" data-scroll>Reservasi
+                                        Sekarang</a>
                                 </div>
                             </div>
                         </div>
@@ -44,7 +46,7 @@
     </div>
     <!--book form-->
     <!--intro post-->
-    <div class="page-content">
+    <div class="page-content" id="layanan">
         <div class="container">
             <div class="row">
 
@@ -84,7 +86,7 @@
     </div>
     <!--intro post-->
     <!--room post-->
-    <div class="gray-bg p-bot-100">
+    <div class="gray-bg p-bot-100" id="room-cottages">
         @foreach($tipe_kamar as $item)
             @php($fasilitas = $item->fasilitas)
 
@@ -92,7 +94,8 @@
                 <div class="divider d-solid d-single text-center">
                     <span class="dot"> </span>
                 </div>
-                <div class="post-list-aside left-side post-p9-alt" style="background: url({{ asset($item->gambar) }}) left 100px no-repeat!important;">
+                <div class="post-list-aside left-side post-p9-alt"
+                     style="background: url({{ asset($item->gambar) }}) left 100px no-repeat!important;">
                     <div class="post-single">
 
                         <div class="container">
@@ -110,14 +113,17 @@
                                             {{ $item->deskripsi }}
                                         </p>
                                         <p>
+                                            <b>Max Guest: {{ $item->max_person }}</b>
+                                        </p>
+
                                         <ul>
                                             @foreach($fasilitas as $f)
                                                 <li>{{ $f->fasilitas }}</li>
                                             @endforeach
                                         </ul>
-                                        </p>
+
                                         <div>
-                                            <a href="#" class="btn btn-small btn-rounded btn-dark-solid  "> Details </a>
+                                            <a class="ajax-popup-link btn btn-small btn-rounded btn-dark-solid" href="{{ route('room',['room_id' => $item->id]) }}"> Details </a>
                                         </div>
                                     </div>
                                 </div>
@@ -131,7 +137,8 @@
                 <div class="divider d-solid d-single text-center">
                     <span class="dot"> </span>
                 </div>
-                <div class="post-list-aside right-side post-p8" style="background: url({{ asset($item->gambar) }}) right 100px no-repeat!important;">
+                <div class="post-list-aside right-side post-p8"
+                     style="background: url({{ asset($item->gambar) }}) right 100px no-repeat!important;">
                     <div class="post-single">
 
                         <div class="container">
@@ -148,13 +155,16 @@
                                         <p>
                                             {{ $item->deskripsi }}
                                         </p>
+                                        <p>
+                                            <b>Max Guest: {{ $item->max_person }}</b>
+                                        </p>
                                         <ul>
                                             @foreach($fasilitas as $f)
                                                 <li>{{ $f->fasilitas }}</li>
                                             @endforeach
                                         </ul>
                                         <div>
-                                            <a href="#" class="btn btn-small btn-rounded btn-dark-solid  "> Details </a>
+                                            <a class="ajax-popup-link btn btn-small btn-rounded btn-dark-solid" href="{{ route('room',['room_id' => $item->id]) }}"> Details </a>
                                         </div>
                                     </div>
                                 </div>
@@ -169,7 +179,7 @@
     </div>
     <!--room post-->
     <!--tabs-->
-    <div class="page-content tab-parallax">
+    <div class="page-content tab-parallax" id="news">
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
@@ -187,23 +197,24 @@
                     <section class="icon-box-tabs ">
                         <ul class="nav nav-pills">
                             @foreach($news as $item)
-                            <li class="@if($loop->iteration == 1){{ 'active' }}@endif">
-                                <a data-toggle="tab" href="#tab-{{ $loop->iteration }}">
-                                    <i class="icon-documents"> </i>
-                                </a>
-                            </li>
+                                <li class="@if($loop->iteration == 1){{ 'active' }}@endif">
+                                    <a data-toggle="tab" href="#tab-{{ $loop->iteration }}">
+                                        <i class="icon-documents"> </i>
+                                    </a>
+                                </li>
                             @endforeach
                         </ul>
                         <div class="panel-body">
                             <div class="tab-content">
                                 @foreach($news as $item)
-                                <div id="tab-{{ $loop->iteration }}" class="tab-pane @if($loop->iteration == 1){{ 'active' }}@endif">
-                                    <div class="heading-title-alt">
-                                        <span class="heading-sub-title-alt text-uppercase theme-color-">{{ $item->tanggal }}</span>
-                                        <h2 class="text-uppercase">{{ $item->judul }}</h2>
+                                    <div id="tab-{{ $loop->iteration }}"
+                                         class="tab-pane @if($loop->iteration == 1){{ 'active' }}@endif">
+                                        <div class="heading-title-alt">
+                                            <span class="heading-sub-title-alt text-uppercase theme-color-">{{ $item->tanggal }}</span>
+                                            <h2 class="text-uppercase">{{ $item->judul }}</h2>
+                                        </div>
+                                        {{ $item->pengumuman }}
                                     </div>
-                                    {{ $item->pengumuman }}
-                                </div>
                                 @endforeach
                             </div>
                         </div>
@@ -217,7 +228,7 @@
     </div>
     <!--tabs-->
     <!--reservation-->
-    <div class="page-content gray-bg">
+    <div class="page-content gray-bg" id="reservation">
         <div class="container">
             <div class="row">
                 <!--post style 6 start-->
@@ -233,42 +244,50 @@
                             <div class="post-desk">
                                 <div class="heading-title-alt text-left">
                                     <span class="heading-sub-title text-uppercase theme-color">Reservation</span>
-                                    <h3 class="text-uppercase">book a table</h3>
+                                    <h3 class="text-uppercase">Cari Kamar</h3>
                                 </div>
                                 <p>
-                                    Lid est laborum dolo rumes fugats untras. Etharums ser quidem rerum facilis dolores nemis omnis fugats minima rerums unsers sadips amets.
+                                    Lid est laborum dolo rumes fugats untras. Etharums ser quidem rerum facilis dolores
+                                    nemis omnis fugats minima rerums unsers sadips amets.
                                 </p>
 
-                                <form class="magazine-grid login m-top-30 " action="#" method="post">
-
+                                <form class="magazine-grid login m-top-30 " action="{{ route('search-room') }}" method="post">
+                                    {{ csrf_field() }}
                                     <div class="row">
                                         <div class="form-group col-md-12">
-                                            <input type="text" class="form-control" placeholder="Nama">
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <input type="email" class="form-control" placeholder="Email">
-                                        </div>
-                                        <div class="form-group col-md-6">
-                                            <input type="text" class="form-control" placeholder="Nomor Telepon">
+                                            <select class="form-control" name="jumlah_ruang" required>
+                                                <option disabled selected>Jumlah Ruangan</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="6">4-6</option>
+                                                <option value="8">6-8</option>
+                                            </select>
                                         </div>
 
                                         <div class="form-group col-md-12">
-                                            <select class="form-control">
-                                                <option>Pilih Tipe Kamar</option>
-                                                @foreach($tipe_kamar as $item)
-                                                    <option>{{ $item->nama }}</option>
-                                                @endforeach
+                                            <select class="form-control" name="jumlah_orang" required>
+                                                <option disabled selected>Jumlah Orang per Kamar</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="6">4-6</option>
+                                                <option value="8">6-8</option>
                                             </select>
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <input type="text" name="checkin" class="form-control pickdate" placeholder="Check In">
+                                            <input type="text" name="checkin" class="form-control pickdate"
+                                                   placeholder="Check In" required>
                                         </div>
                                         <div class="form-group col-md-6">
-                                            <input type="text" name="checkout" class="form-control pickdate" placeholder="Check Out">
+                                            <input type="text" name="checkout" class="form-control pickdate"
+                                                   placeholder="Check Out" required>
                                         </div>
 
                                         <div class="form-group col-md-12">
-                                            <button class="btn btn-small btn-dark-solid full-width btn-rounded" value="book a table now">book a table now </button>
+                                            <button class="btn btn-small btn-dark-solid full-width btn-rounded"
+                                                    value="Cari kamar" type="submit">Cari Kamar
+                                            </button>
                                         </div>
                                     </div>
 
@@ -285,7 +304,7 @@
     </div>
     <!--reservation-->
     <!--contact-->
-    <div class="page-content">
+    <div class="page-content" id="contact">
 
         <div class="container">
 

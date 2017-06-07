@@ -42,8 +42,8 @@
                     <span class="title">Layanan</span>
                 </a>
             </li>
-            <li class="nav-item  {{ Request::is('admins/user') ? 'active open' : '' }}">
-                <a href="{{ route('pengumuman.index') }}" class="nav-link nav-toggle">
+            <li class="nav-item  {{ Route::is('admin-reservation') ? 'active open' : '' }}">
+                <a href="{{ route('admin-reservation') }}" class="nav-link nav-toggle">
                     <i class="icon-calendar"></i>
                     <span class="title">Reservasi</span>
                 </a>

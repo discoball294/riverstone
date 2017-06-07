@@ -12,6 +12,7 @@
 */
 
 Route::get('/', ['uses' => 'IndexController@index', 'as' => 'index']);
+Route::get('/room/{room_id}', ['uses' => 'IndexController@room', 'as' => 'room']);
 Route::group(['prefix' => '/login'], function (){
     Route::get('/',['uses' => 'Auth\LoginController@showLoginForm']);
     Route::post('/',[
@@ -22,6 +23,22 @@ Route::group(['prefix' => '/login'], function (){
 Route::get('/logout', [
     'uses' => 'Auth\LoginController@logout',
     'as' => 'logout'
+]);
+Route::get('/booking-summary/{book_id}', [
+    'uses' => 'ReservationController@bookingSummary',
+    'as' => 'summary'
+]);
+Route::post('/search-room', [
+    'uses' => 'RoomController@availableRooms',
+    'as' => 'search-room'
+]);
+Route::post('/reservation', [
+    'uses' => 'ReservationController@reservation',
+    'as' => 'reservation'
+]);
+Route::post('/confirmation', [
+    'uses' => 'ReservationController@sendConfirmation',
+    'as' => 'send-confirmation'
 ]);
 
 Route::group(['middleware' => 'auth','prefix' => '/admin'], function (){
@@ -34,4 +51,16 @@ Route::group(['middleware' => 'auth','prefix' => '/admin'], function (){
     Route::resource('layanan','LayananController');
     Route::resource('banner', 'BannerController');
     Route::resource('user', 'UserController');
+    Route::get('/admin-reservation', [
+        'uses' => 'ReservationController@adminReservationIndex',
+        'as' => 'admin-reservation'
+    ]);
+    Route::get('/detail-reservasi/{reservasi_id}', [
+        'uses' => 'ReservationController@adminReservationDetail',
+        'as' => 'detail-reservasi'
+    ]);
+    Route::post('/payment-confirmation', [
+        'uses' => 'ReservationController@paymentConfirmation',
+        'as' => 'payment-confirmation'
+    ]);
 });

@@ -1,21 +1,21 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <meta name="description" content="">
-    <meta name="author" content="Mosaddek">
+    <meta name="author" content="Riverstone Hotel & Cottage">
 
     <!--favicon icon-->
     <link rel="icon" type="image/png" href="img/favicon.png">
-    @yield('title')
+@yield('title')
 
 
-    <!--common style-->
+<!--common style-->
 
 
-    <link href='http://fonts.googleapis.com/css?family=Abel|Source+Sans+Pro:400,300,300italic,400italic,600,600italic,700,700italic,900,900italic,200italic,200' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Abel|Source+Sans+Pro:400,300,300italic,400italic,600,600italic,700,700italic,900,900italic,200italic,200'
+          rel='stylesheet' type='text/css'>
     <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/font-awesome.min.css') }}" rel="stylesheet">
     <link href="{{ asset('css/magnific-popup.css') }}" rel="stylesheet">
@@ -47,22 +47,22 @@
 <div class="wrapper">
 
     <!--header start-->
-    @include('front.includes.navigation')
-    <!--header end-->
+@include('front.includes.navigation')
+<!--header end-->
 
     <!--hero section-->
-    @yield('hero')
-    <!--hero section-->
+@yield('hero')
+<!--hero section-->
 
     <!--body content start-->
     <section class="body-content">
-@yield('content')
+        @yield('content')
     </section>
     <!--body content end-->
 
     <!--footer start 1-->
-    @include('front.includes.footer')
-    <!--footer 1 end-->
+@include('front.includes.footer')
+<!--footer 1 end-->
 
 </div>
 
@@ -90,9 +90,13 @@
         $('.pickdate').pickadate({
             format: 'd mmmm, yyyy',
             formatSubmit: 'yyyy-mm-dd',
-            hiddenPrefix: 'hidden_'
+            hiddenPrefix: 'hidden_',
+            min: true
         });
-    })
+    });
+    $('.ajax-popup-link').magnificPopup({
+        type: 'ajax'
+    });
 </script>
 
 </body>
