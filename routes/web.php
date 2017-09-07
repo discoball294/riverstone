@@ -50,6 +50,7 @@ Route::group(['middleware' => 'auth','prefix' => '/admin'], function (){
     Route::resource('contact','ContactController');
     Route::resource('layanan','LayananController');
     Route::resource('banner', 'BannerController');
+    Route::resource('restaurant', 'RestaurantController');
     Route::resource('user', 'UserController');
     Route::get('/admin-reservation', [
         'uses' => 'ReservationController@adminReservationIndex',

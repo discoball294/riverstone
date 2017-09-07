@@ -4,7 +4,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-6">
-                    <span class="m-top-10">Copyright 2012 - 2015 Massive Theme by <a href="http://themebucket.net/" class="f-link" target="_blank">ThemeBucket</a> | All Rights Reserved</span>
+                    <span class="m-top-10">Copyright 2017 Riverstone Hotel & Cottage</span>
                 </div>
                 <div class="col-md-6">
                     <div class="social-link circle pull-right">

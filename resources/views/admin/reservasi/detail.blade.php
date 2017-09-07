@@ -52,12 +52,9 @@
                                 {{ csrf_field() }}
                                 <input type="hidden" value="{{ $reservasi->id }}" name="id">
                                 <input type="hidden" value="{{ $unik }}" name="unik">
-                                <button type="submit" class="btn btn-transparent red btn-outline btn-lg active">
-                                    Cancel Booking
-                                </button>
-                                <button type="submit" class="btn btn-transparent green btn-outline btn-lg active">
-                                    Confirm Payment
-                                </button>
+                                <input type="submit" name="btn" class="btn btn-transparent red btn-outline btn-lg active" value="Cancel Booking" @if($reservasi->status==1 || $reservasi->status==2) disabled @endif>
+
+                                <input type="submit" name="btn" class="btn btn-transparent green btn-outline btn-lg active" value="Confirm Payment" @if($reservasi->status==1 || $reservasi->status==2) disabled @endif>
                             </form>
                         </div>
                     </div>
@@ -87,7 +84,7 @@
                                                     <div class="row static-info">
                                                         <div class="col-md-5 name"> Booking ID #:</div>
                                                         <div class="col-md-7 value"> {{ $reservasi->id }}
-                                                            @if($reservasi->status==1)
+                                                            @if($reservasi->status==1 || $reservasi->status==2)
                                                                 <span class="label label-info label-sm"> Email confirmation was sent </span>
                                                             @else
                                                                 <span class="label label-danger"> Email confirmation wasn't sent </span>
@@ -102,9 +99,11 @@
                                                         <div class="col-md-5 name"> Payment Status:</div>
                                                         <div class="col-md-7 value">
                                                             @if($reservasi->status==0)
-                                                                <span class="label label-danger"> Not Confirmed </span>
-                                                            @else
+                                                                <span class="label label-warning"> Not Confirmed </span>
+                                                            @elseif($reservasi->status==1)
                                                                 <span class="label label-success"> Confirmed </span>
+                                                            @else
+                                                                <span class="label label-danger"> Canceled </span>
                                                             @endif
                                                         </div>
                                                     </div>

@@ -18,43 +18,49 @@
                 </a>
 
             </li>
-            <li class="nav-item  {{ Route::is('pengumuman.index') || Route::is('pengumuman.create') ||   Route::is('pengumuman.edit') ? 'active open' : '' }}">
+            <li class="nav-item {{ Route::is('pengumuman.index') || Route::is('pengumuman.create') ||   Route::is('pengumuman.edit') ? 'active open' : '' }}">
                 <a href="{{ route('pengumuman.index') }}" class="nav-link nav-toggle">
                     <i class="icon-info"></i>
                     <span class="title">Pengumuman</span>
                 </a>
             </li>
-            <li class="nav-item  {{ Route::is('user.*') ? 'active open' : '' }}">
+            <li class="nav-item {{ Route::is('user.*') ? 'active open' : '' }}">
                 <a href="{{ route('pengumuman.index') }}" class="nav-link nav-toggle">
                     <i class="icon-user"></i>
                     <span class="title">User</span>
                 </a>
             </li>
-            <li class="nav-item  {{ Route::is('banner.*') ? 'active open' : '' }}">
+            <li class="nav-item {{ Route::is('banner.*') ? 'active open' : '' }}">
                 <a href="{{ route('banner.edit', 1) }}" class="nav-link nav-toggle">
                     <i class="icon-picture"></i>
                     <span class="title">Banner</span>
                 </a>
             </li>
-            <li class="nav-item  {{ Route::is('layanan.*') ? 'active open' : '' }}">
+            <li class="nav-item {{ Route::is('restaurant.*') ? 'active open' : '' }}">
+                <a href="{{ route('restaurant.edit', 1) }}" class="nav-link nav-toggle">
+                    <i class="icon-cup"></i>
+                    <span class="title">Restaurant</span>
+                </a>
+            </li>
+            <li class="nav-item {{ Route::is('layanan.*') ? 'active open' : '' }}">
                 <a href="{{ route('layanan.index') }}" class="nav-link nav-toggle">
                     <i class="icon-notebook"></i>
                     <span class="title">Layanan</span>
                 </a>
             </li>
-            <li class="nav-item  {{ Route::is('admin-reservation') ? 'active open' : '' }}">
+            <li class="nav-item {{ Route::is('admin-reservation') ? 'active open' : '' }}">
                 <a href="{{ route('admin-reservation') }}" class="nav-link nav-toggle">
                     <i class="icon-calendar"></i>
                     <span class="title">Reservasi</span>
                 </a>
             </li>
-            <li class="nav-item  {{ Route::is('contact.*') ? 'active open' : '' }}">
+            <li class="nav-item {{ Route::is('contact.*') ? 'active open' : '' }}">
                 <a href="{{ route('contact.index') }}" class="nav-link nav-toggle">
                     <i class="icon-call-end"></i>
                     <span class="title">Contact</span>
                 </a>
             </li>
-            <li class="nav-item start  {{ Route::is('rooms.*') || Route::is('room-categories.*') || Route::is('fasilitas.*') ? 'active open' : '' }}">
+            <li class="nav-item {{ Route::is('rooms.*') || Route::is('room-categories.*') || Route::is('fasilitas.*') ? 'active open' : '' }}">
                 <a href="#" class="nav-link nav-toggle">
                     <i class="icon-directions"></i>
                     <span class="title">Hotel</span>

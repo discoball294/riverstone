@@ -55,9 +55,7 @@
                         <img class="retina" src="img/hotel/obj-1@2x.png" alt="" style="height: 81px; width: auto;">
                     </div>
                     <h3 class="text-uppercase">welcome to our resort &amp; spa</h3>
-                    <p class="half-txt p-top-20">Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil
-                        impedit quo minus id quod maxime placeat facere possimus. Nam libero tempore, cum soluta nobis
-                        est eligendi optio cumque nihil impedit quo minus id quod maxime placeat facere possimus.</p>
+
                 </div>
 
                 <!--post style 2 start-->
@@ -86,98 +84,129 @@
     </div>
     <!--intro post-->
     <!--room post-->
-    <div class="gray-bg p-bot-100" id="room-cottages">
+    <div class="gray-bg p-top-30 p-bot-30" id="room-cottages">
+        <div class="heading-title border-short-bottom text-center" style="margin-bottom: 10px">
+            <h3 class="text-uppercase">rooms &amp; cottages</h3>
+
+        </div>
         @foreach($tipe_kamar as $item)
             @php($fasilitas = $item->fasilitas)
 
             @if($loop->iteration % 2 != 0)
-                <div class="divider d-solid d-single text-center">
-                    <span class="dot"> </span>
-                </div>
-                <div class="post-list-aside left-side post-p9-alt"
-                     style="background: url({{ asset($item->gambar) }}) left 100px no-repeat!important;">
-                    <div class="post-single">
-
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-6 col-md-offset-6">
-                                    <div class="post-desk">
-                                        <div class="m-bot-30">
-
-                                            <h4 class="text-uppercase">
-                                                {{ $item->nama }}
-                                            </h4>
-                                        </div>
-
-                                        <p>
-                                            {{ $item->deskripsi }}
-                                        </p>
-                                        <p>
-                                            <b>Max Guest: {{ $item->max_person }}</b>
-                                        </p>
-
-                                        <ul>
-                                            @foreach($fasilitas as $f)
-                                                <li>{{ $f->fasilitas }}</li>
-                                            @endforeach
-                                        </ul>
-
-                                        <div>
-                                            <a class="ajax-popup-link btn btn-small btn-rounded btn-dark-solid" href="{{ route('room',['room_id' => $item->id]) }}"> Details </a>
+                <div class="page-content p-bot-0" style="padding: 50px 0">
+                    <div class="container">
+                        <div class="row">
+                            <!--post style 5 start-->
+                            <div class="post-list-aside">
+                                <div class="post-single">
+                                    <div class="col-md-6">
+                                        <div class="post-img">
+                                            <img src="{{ asset($item->gambar) }}" alt="">
                                         </div>
                                     </div>
-                                </div>
 
+                                    <div class="col-md-6">
+                                        <div class="post-desk">
+                                            <h2 class="text-uppercase m-bot-0 inline-block">
+                                                {{ $item->nama }}
+                                            </h2>
+                                            <p>
+                                                {{ $item->deskripsi }}
+                                            </p>
+                                                <ul>
+                                                    @foreach($fasilitas as $f)
+                                                        <li>{{ $f->fasilitas }}</li>
+                                                    @endforeach
+                                                </ul>
+
+
+                                            <p class="theme-color txt-xl">Max Guest: {{ $item->max_person }}</p>
+                                        </div>
+                                    </div>
+
+
+                                </div>
                             </div>
+                            <!--post style 5 end-->
                         </div>
 
                     </div>
                 </div>
+                    <div class="divider d-solid d-single text-center">
+                        <span class="dot"> </span>
+                    </div>
             @else
-                <div class="divider d-solid d-single text-center">
-                    <span class="dot"> </span>
-                </div>
-                <div class="post-list-aside right-side post-p8"
-                     style="background: url({{ asset($item->gambar) }}) right 100px no-repeat!important;">
-                    <div class="post-single">
+                <div class="page-content p-bot-0" style="padding: 50px 0">
+                    <div class="container">
+                        <div class="row">
+                            <!--post style 5 start-->
+                            <div class="post-list-aside">
+                                <div class="post-single">
 
-                        <div class="container">
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="post-desk">
-                                        <div class="m-bot-30">
-                                            <span class="post-sub-title text-uppercase">room</span>
-                                            <h4 class="text-uppercase">
+                                    <div class="col-md-6">
+                                        <div class="post-desk">
+                                            <h2 class="text-uppercase m-bot-0 inline-block">
                                                 {{ $item->nama }}
-                                            </h4>
-                                        </div>
+                                            </h2>
+                                            <p>
+                                                {{ $item->deskripsi }}
+                                            </p>
+                                            <ul>
+                                                @foreach($fasilitas as $f)
+                                                    <li>{{ $f->fasilitas }}</li>
+                                                @endforeach
+                                            </ul>
 
-                                        <p>
-                                            {{ $item->deskripsi }}
-                                        </p>
-                                        <p>
-                                            <b>Max Guest: {{ $item->max_person }}</b>
-                                        </p>
-                                        <ul>
-                                            @foreach($fasilitas as $f)
-                                                <li>{{ $f->fasilitas }}</li>
-                                            @endforeach
-                                        </ul>
-                                        <div>
-                                            <a class="ajax-popup-link btn btn-small btn-rounded btn-dark-solid" href="{{ route('room',['room_id' => $item->id]) }}"> Details </a>
+
+                                            <p class="theme-color txt-xl">Max Guest: {{ $item->max_person }}</p>
                                         </div>
                                     </div>
+
+                                    <div class="col-md-6">
+                                        <div class="post-img">
+                                            <img src="{{ asset($item->gambar) }}" alt="">
+                                        </div>
+                                    </div>
+
                                 </div>
-
                             </div>
+                            <!--post style 5 end-->
                         </div>
-
                     </div>
                 </div>
+                    <div class="divider d-solid d-single text-center">
+                        <span class="dot"> </span>
+                    </div>
             @endif
         @endforeach
     </div>
     <!--room post-->
+    <div class="post-list-aside right-side fast-food" style="background: url({{ $restaurant->gambar }}) right 30px no-repeat!important;" id="restaurant">
+        <div class="post-single">
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="post-desk">
+                            <div class="m-bot-30">
+                                <span class="post-sub-title text-uppercase">{{ $restaurant->nama }}</span>
+                                <h4 class="text-uppercase">
+                                    THE BEST THEME WITH QUALITY SERVICE
+                                </h4>
+                            </div>
+
+                            <p>
+                                {{ $restaurant->deskripsi }}
+                            </p>
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
     <!--tabs-->
     <div class="page-content tab-parallax" id="news">
         <div class="container">
@@ -236,7 +265,7 @@
                     <div class="post-single">
                         <div class="col-md-6">
                             <div class="post-img">
-                                <img src="img/restaurant/food-glass.png" alt="">
+                                <img src="{{ asset('img/write.jpg') }}" alt="">
                             </div>
                         </div>
 

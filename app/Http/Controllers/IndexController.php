@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Banner;
 use App\Layanan;
 use App\Pengumuman;
+use App\Restaurant;
 use App\RoomCategory;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -14,10 +15,11 @@ class IndexController extends Controller
 {
     public function index(){
         $banner = Banner::find(1);
+        $restaurant = Restaurant::find(1);
         $layanan = Layanan::all();
         $tipe_kamar = RoomCategory::all();
         $news = Pengumuman::paginate(5);
-        return \View::make('front.home', compact('banner','layanan','tipe_kamar','news'));
+        return \View::make('front.home', compact('banner','layanan','tipe_kamar','news','restaurant'));
     }
     public function room($room_id){
         $tipe_kamar = RoomCategory::find($room_id);

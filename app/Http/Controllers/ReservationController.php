@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\RoomFailToReservedMail;
 use App\Mail\RoomReservedMail;
 use App\Reservasi;
 use Carbon\Carbon;
@@ -80,12 +81,20 @@ class ReservationController extends Controller
     }
     public function paymentConfirmation(Request $request){
         $reservasi = Reservasi::find($request->id);
-        $reservasi->status = 1;
-        $reservasi->save();
-        $confirm_reservation = new RoomReservedMail($reservasi);
-        $confirm_reservation->setUnik($request->unik);
-        \Mail::to($reservasi->email)->send($confirm_reservation);
-
+        if ($request->btn == 'Confirm Payment'){
+            $reservasi->status = 1;
+            $reservasi->save();
+            $confirm_reservation = new RoomReservedMail($reservasi);
+            $confirm_reservation->setUnik($request->unik);
+            \Mail::to($reservasi->email)->send($confirm_reservation);
+        }else{
+            $reservasi->status = 2;
+            $reservasi->save();
+            $confirm_reservation = new RoomFailToReservedMail($reservasi);
+            $confirm_reservation->setUnik($request->unik);
+            \Mail::to($reservasi->email)->send($confirm_reservation);
+        }
         return redirect()->back();
     }
+
 }

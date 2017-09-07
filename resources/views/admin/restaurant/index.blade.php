@@ -1,6 +1,6 @@
 @extends('admin.layouts.master')
 @section('title')
-    <title>Reservasi - Riverstone - Hotel & cottage - Admin Page</title>
+    <title>Banner - Riverstone - Hotel & cottage - Admin Page</title>
 @endsection
 @section('plugins_css')
     <link href="{{ asset('admin-assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css') }}"
@@ -18,7 +18,7 @@
 @section('content')
     <div class="page-content">
         <!-- BEGIN PAGE HEADER-->
-        <h1 class="page-title"> Reservasi
+        <h1 class="page-title"> Layanan
             <small></small>
         </h1>
         @foreach(['danger','success','warning','info'] as $msg)
@@ -49,7 +49,7 @@
                     <i class="fa fa-angle-right"></i>
                 </li>
                 <li>
-                    <a href="#">Reservasi</a>
+                    <a href="#">Layanan</a>
                 </li>
             </ul>
         </div>
@@ -60,12 +60,12 @@
                 <div class="portlet light portlet-fit ">
                     <div class="portlet-title">
                         <div class="caption">
-                            <i class="icon-info font-red"></i>
-                            <span class="caption-subject font-red sbold uppercase">List Reservasi</span>
+                            <i class="icon-equalizer font-red"></i>
+                            <span class="caption-subject font-red sbold uppercase">List Layanan</span>
                         </div>
                         <div class="actions">
                             <div class="btn-group btn-group-devided" data-toggle="buttons">
-                                <a href="{{ route('rooms.create') }}" data-toggle="modal"
+                                <a href="{{ route('layanan.create') }}" data-toggle="modal"
                                    class="btn btn-circle btn-outline green-seagreen"><i class="fa fa-plus"></i>
                                     Tambah</a>
 
@@ -73,13 +73,13 @@
 
                         </div>
                         <ul class="pagination pagination-circle" style="margin-right: 10px">
-                            <li><a href="{{ $reservasi->url(1) }}">«</a></li>
-                            @if($reservasi->lastPage() > 1)
-                                @for($i = 1; $i <= $reservasi->lastPage(); $i++)
-                                    <li><a href="{{ $reservasi->url($i) }}">{{ $i }}</a></li>
+                            <li><a href="{{ $layanan->url(1) }}">«</a></li>
+                            @if($layanan->lastPage() > 1)
+                                @for($i = 1; $i <= $layanan->lastPage(); $i++)
+                                    <li><a href="{{ $layanan->url($i) }}">{{ $i }}</a></li>
                                 @endfor
                             @endif
-                            <li><a href="{{ $reservasi->url($reservasi->lastPage()) }}">»</a></li>
+                            <li><a href="{{ $layanan->url($layanan->lastPage()) }}">»</a></li>
                         </ul>
 
                     </div>
@@ -88,36 +88,32 @@
                             <table class="table table-hover table-light">
                                 <thead>
                                 <tr class="uppercase">
-                                    <th> Booking ID#</th>
-                                    <th> Guest</th>
-                                    <th> Payment Status</th>
-                                    <th> Action</th>
+                                    <th> #</th>
+                                    <th> Nama</th>
+                                    <th> Deskripsi</th>
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($reservasi as $item)
+                                @foreach($layanan as $item)
                                     <tr>
                                         <td>{{ $item->id }}</td>
                                         <td> {{ $item->nama }}</td>
-                                        <td>
-                                            @if($item->status==0)
-                                                <span class="label label-sm label-warning"> Not Confirmed </span>
-                                            @elseif($item->status==1)
-                                                <span class="label label-sm label-success"> Confirmed </span>
-                                            @else
-                                                <span class="label label-sm label-danger"> Canceled </span>
-                                            @endif
-                                        </td>
+                                        <td> {{ $item->deskripsi }}</td>
 
                                         <td>
-                                            <form action="{{ route('payment-confirmation') }}"
+                                            <form action="{{ route('layanan.destroy', ['id' => $item->id ]) }}"
                                                   method="post" class="delete">
-                                                <a type="button"
-                                                   href="{{ route('detail-reservasi', ['reservasi_id'=>$item->id]) }}"
-                                                   class="btn btn-outline red btn-sm btn-delete">
-                                                    <i
-                                                            class="fa fa-info"></i> Details
-                                                </a>
+                                                <div class="btn-group btn-group-circle">
+                                                    <a href="{{ route('layanan.edit', $item->id) }}"
+                                                       data-toggle="modal" type="button"
+                                                       class="btn btn-outline green btn-sm edit-btn">Edit <i
+                                                                class="fa fa-edit"></i></a>
+
+                                                    <button type="submit" class="btn btn-outline red btn-sm btn-delete"><i
+                                                                class="fa fa-trash-o"></i> Delete
+                                                    </button>
+                                                </div>
+                                                {{ method_field('DELETE') }}
                                                 {{ csrf_field() }}
                                             </form>
                                         </td>
@@ -198,10 +194,12 @@
             $('.edit-btn').click(function (e) {
                 var pengumuman_id = $(this).closest('tr').find('#pengumuman_id').text();
                 var pengumuman_judul = $(this).closest('tr').find('#pengumuman_judul').text();
+                var pengumuman_isi = $(this).closest('tr').find('#pengumuman_isi').text();
                 var pengumuman_tanggal = $(this).closest('tr').find('#pengumuman_tanggal').text();
                 var pengumuman_status = $(this).closest('td').find('#pengumuman_status').val();
                 console.log('clicked');
                 $('#edit_judul').val(pengumuman_judul);
+                $('#edit_pengumuman').val(pengumuman_isi);
                 $('#edit_tanggal').val(pengumuman_tanggal);
                 $('#edit_status').val(pengumuman_status);
                 $('#form-edit').attr('action', '/admins/pengumuman/edit/' + pengumuman_id);
@@ -219,7 +217,7 @@
                         closeOnConfirm: false,
                         closeOnCancel: true
                     },
-                    function (isConfirm) {
+                    function(isConfirm) {
                         if (isConfirm) {
                             form.submit();
                         } else {
