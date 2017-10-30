@@ -28,7 +28,7 @@ Route::get('/booking-summary/{book_id}', [
     'uses' => 'ReservationController@bookingSummary',
     'as' => 'summary'
 ]);
-Route::post('/search-room', [
+Route::match(['get','post'],'/search-room', [
     'uses' => 'RoomController@availableRooms',
     'as' => 'search-room'
 ]);

@@ -90,20 +90,27 @@ class RoomController extends Controller
 
     public function availableRooms(Request $request)
     {
+        $messages = [
+            'hidden_checkin_submit.before' => 'Tanggal check out harus setelah tanggal check in'
+        ];
         $validator = \Validator::make($request->all(), [
             'jumlah_ruang' => 'required',
             'jumlah_orang' => 'required',
-            'hidden_checkin_submit' => 'required',
+            'hidden_checkin_submit' => 'required|before:hidden_checkout_submit',
             'hidden_checkout_submit' => 'required'
-        ]);
+        ], $messages);
         if ($validator->passes()) {
-            $check_in = Carbon::createFromFormat('Y-m-d', $request['hidden_checkin_submit'])->timestamp;
-            $check_out = Carbon::createFromFormat('Y-m-d', $request['hidden_checkout_submit'])->timestamp;
+            $check_in = Carbon::createFromFormat('Y-m-d', $request['hidden_checkin_submit']);
+            $check_out = Carbon::createFromFormat('Y-m-d', $request['hidden_checkout_submit']);
             $send_checkin = $request['hidden_checkin_submit'];
             $send_checkout = $request['hidden_checkout_submit'];
             $jumlah_ruang = $request['jumlah_ruang'];
             $jumlah_orang = $request['jumlah_orang'];
-            $available_rooms = DB::table('room')
+            $available_rooms =
+                Room::whereNotIn('id',function ($query) use ($check_in, $check_out) {
+                    $query->select('room_id')->from('detail_reservasi')->where('check_in','<=',$check_out)->where('check_out','>=',$check_in)->distinct();
+                })->get()
+                /*DB::table('room')
                 ->select('room.id AS room_id', 'room_category.*')
                 ->leftJoin('detail_reservasi', 'detail_reservasi.room_id', '=', 'room.id')
                 ->leftJoin('room_category', 'room.room_category_id', '=', 'room_category.id')
@@ -115,8 +122,9 @@ class RoomController extends Controller
                 ->orWhere(function ($query) use ($check_in, $check_out) {
                     $query->where('detail_reservasi.check_out', '<=', $check_in)
                         ->where('detail_reservasi.check_out', '<=', $check_out);
-                })->distinct()->get();
+                })->distinct()->get()*/;
             //dd($available_rooms);
+
             return view('front.search-room', compact('available_rooms', 'send_checkin', 'send_checkout', 'jumlah_orang', 'jumlah_ruang'));
         }
         else {

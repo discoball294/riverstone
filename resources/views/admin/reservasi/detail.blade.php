@@ -42,8 +42,14 @@
                         <div class="caption">
                             <i class="icon-settings font-dark"></i>
                             <span class="caption-subject font-dark sbold uppercase"> Booking ID #{{ $reservasi->id }}
-                                <span class="hidden-xs">| {{ \Carbon\Carbon::now()->diffInDays(\Carbon\Carbon::createFromFormat('Y-m-d H:i:s', $reservasi->created_at)) }}
-                                    Days Ago</span>
+                                <span class="hidden-xs">|
+                                    @php
+                                        $created = new \Carbon\Carbon($reservasi->created_at);
+    $now = \Carbon\Carbon::now();
+    $difference = ($created->diff($now)->days < 1) ? 'today' : $created->diffForHumans($now);
+                                    @endphp
+                                    {{ $difference }}
+                                    </span>
                                         </span>
                         </div>
                         <div class="actions">
@@ -52,9 +58,18 @@
                                 {{ csrf_field() }}
                                 <input type="hidden" value="{{ $reservasi->id }}" name="id">
                                 <input type="hidden" value="{{ $unik }}" name="unik">
-                                <input type="submit" name="btn" class="btn btn-transparent red btn-outline btn-lg active" value="Cancel Booking" @if($reservasi->status==1 || $reservasi->status==2) disabled @endif>
+                                <input type="submit" name="btn"
+                                       class="btn btn-transparent yellow btn-outline btn-lg active"
+                                       value="Change Booking Date">
 
-                                <input type="submit" name="btn" class="btn btn-transparent green btn-outline btn-lg active" value="Confirm Payment" @if($reservasi->status==1 || $reservasi->status==2) disabled @endif>
+                                <input type="submit" name="btn"
+                                       class="btn btn-transparent red btn-outline btn-lg active" value="Cancel Booking"
+                                       @if($reservasi->status==1 || $reservasi->status==2) disabled @endif>
+
+                                <input type="submit" name="btn"
+                                       class="btn btn-transparent green btn-outline btn-lg active"
+                                       value="Confirm Payment"
+                                       @if($reservasi->status==1 || $reservasi->status==2) disabled @endif>
                             </form>
                         </div>
                     </div>
@@ -118,7 +133,9 @@
                                                     </div>
                                                     <div class="row static-info">
                                                         <div class="col-md-5 name"> Payment Information:</div>
-                                                        <div class="col-md-7 value"> Bank Transfer (to {{ strtoupper($reservasi->transfer_to) }})</div>
+                                                        <div class="col-md-7 value"> Bank Transfer
+                                                            (to {{ strtoupper($reservasi->transfer_to) }})
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -171,6 +188,7 @@
                                                                 <th> Room Number</th>
                                                                 <th> Room Type</th>
                                                                 <th> Max Guest/Room</th>
+                                                                <th> Check in / Check out</th>
                                                                 <th> Duration Of Stay</th>
                                                                 <th> Price /Night</th>
                                                                 <th> Subtotal</th>
@@ -178,9 +196,10 @@
                                                             </thead>
                                                             <tbody>
                                                             @foreach($reservasi->roomReservation as $item)
+
                                                                 @php
-                                                                    $checkin = \Carbon\Carbon::createFromTimestamp($item->pivot->check_in);
-                                                                    $checkout = \Carbon\Carbon::createFromTimestamp($item->pivot->check_out);
+                                                                    $checkin = \Carbon\Carbon::createFromFormat('Y-m-d',$item->pivot->check_in);
+                                                                    $checkout = \Carbon\Carbon::createFromFormat('Y-m-d',$item->pivot->check_out);
                                                                 @endphp
                                                                 <tr>
                                                                     <td>
@@ -190,6 +209,7 @@
                                                                         <a href="javascript:;"> {{ $item->roomType->nama }} </a>
                                                                     </td>
                                                                     <td> {{ $item->roomType->max_person }} </td>
+                                                                    <td> {{ $checkin->toFormattedDateString() }} / {{ $checkout->toFormattedDateString() }} </td>
                                                                     <td> {{ $checkin->diffInDays($checkout) }} </td>
                                                                     <td>
                                                                         Rp. {{ number_format($item->pivot->harga,0,'.','.') }}</td>

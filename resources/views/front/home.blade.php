@@ -280,7 +280,7 @@
                                     nemis omnis fugats minima rerums unsers sadips amets.
                                 </p>
 
-                                <form class="magazine-grid login m-top-30 " action="{{ route('search-room') }}" method="post">
+                                <form class="magazine-grid login m-top-30 " action="{{ route('search-room') }}" method="get">
                                     {{ csrf_field() }}
                                     <div class="row">
                                         <div class="form-group col-md-12">
@@ -398,4 +398,15 @@
                 allowfullscreen></iframe>
     </div>
 
+@endsection
+@section('script')
+        <script>
+            @foreach ($errors->all() as $message)
+            Lobibox.notify('error', {
+                msg: '{{ $message }}',
+                delay: 10000,
+                onClickUrl: '#reservation'
+            });
+            @endforeach
+        </script>
 @endsection

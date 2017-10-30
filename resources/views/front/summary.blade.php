@@ -58,8 +58,8 @@
                                 @endphp
                                 @foreach($summary->roomReservation as $item)
                                     @php
-                                        $checkin = \Carbon\Carbon::createFromTimestamp($item->pivot->check_in);
-                                        $checkout = \Carbon\Carbon::createFromTimestamp($item->pivot->check_out);
+                                        $checkin = \Carbon\Carbon::createFromFormat('Y-m-d',$item->pivot->check_in);
+                                        $checkout = \Carbon\Carbon::createFromFormat('Y-m-d',$item->pivot->check_out);
                                     @endphp
                                     <tr>
                                         <td><a href="#">{{ $item->id }}</a></td>

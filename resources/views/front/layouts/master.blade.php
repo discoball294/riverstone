@@ -25,6 +25,7 @@
     <link href="{{ asset('css/style.css') }}" rel="stylesheet">
     <link href="{{ asset('css/style-responsive.css') }}" rel="stylesheet">
     <link href="{{ asset('css/green-theme.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/lobibox.min.css') }}" rel="stylesheet">
     <link href="{{ asset('pickadate/themes/classic.css') }}" rel="stylesheet">
     <link href="{{ asset('pickadate/themes/classic.date.css') }}" rel="stylesheet">
 
@@ -83,6 +84,7 @@
 <script src="{{ asset('js/imagesloaded.js') }}"></script>
 <script src="{{ asset('pickadate/picker.js') }}"></script>
 <script src="{{ asset('pickadate/picker.date.js') }}"></script>
+<script src="{{ asset('js/lobibox.min.js') }}"></script>
 <!--common scripts-->
 <script src="{{ asset('js/scripts.js?6') }}"></script>
 <script>
@@ -98,6 +100,7 @@
         type: 'ajax'
     });
 </script>
+@yield('script')
 
 </body>
 </html>
