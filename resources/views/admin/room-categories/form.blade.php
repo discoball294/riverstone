@@ -14,11 +14,7 @@
                id="form_control_1" name="harga" value="{{ @$room_categories->harga }}">
         <label for="form_control_1">Harga</label>
     </div>
-    <div class="form-group form-md-line-input">
-        <input type="text" class="form-control"
-               id="form_control_1" name="max_person" value="{{ @$room_categories->max_person }}">
-        <label for="form_control_1">Max Person</label>
-    </div>
+
     <div class="form-group form-md-checkboxes">
         <label>Fasilitas</label>
         <div class="md-checkbox-inline">

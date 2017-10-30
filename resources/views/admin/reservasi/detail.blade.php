@@ -192,6 +192,7 @@
                                                                 <th> Duration Of Stay</th>
                                                                 <th> Price /Night</th>
                                                                 <th> Subtotal</th>
+                                                                <th> Action</th>
                                                             </tr>
                                                             </thead>
                                                             <tbody>
@@ -215,6 +216,15 @@
                                                                         Rp. {{ number_format($item->pivot->harga,0,'.','.') }}</td>
                                                                     <td>
                                                                         Rp. {{ number_format($item->pivot->subtotal,0,'.','.') }}</td>
+                                                                    <td>
+                                                                        <button type="button"
+                                                                           href=""
+                                                                           class="btn btn-default btn-sm yellow-crusta">
+                                                                            <i
+                                                                                    class="fa fa-pencil"></i> Edit
+                                                                        </button>
+
+                                                                    </td>
                                                                 </tr>
                                                             @endforeach
                                                             </tbody>

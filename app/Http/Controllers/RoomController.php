@@ -34,6 +34,7 @@ class RoomController extends Controller
         if ($validator->passes()) {
             $room = new Room();
             $room->room_category_id = $request['room_category'];
+            $room->max_person = $request['max_person'];
             if ($room->save()) {
                 $request->session()->flash('alert-success', 'Kamar telah ditambahkan');
                 return redirect()->back();
@@ -63,6 +64,7 @@ class RoomController extends Controller
         if ($validator->passes()) {
             $room = Room::find($id);
             $room->room_category_id = $request['room_category'];
+            $room->max_person = $request['max_person'];
             if ($room->save()) {
                 $request->session()->flash('alert-success', 'Kamar telah disimpan');
                 return redirect()->back();
@@ -107,9 +109,9 @@ class RoomController extends Controller
             $jumlah_ruang = $request['jumlah_ruang'];
             $jumlah_orang = $request['jumlah_orang'];
             $available_rooms =
-                Room::whereNotIn('id',function ($query) use ($check_in, $check_out) {
+                Room::whereNotIn('room.id',function ($query) use ($check_in, $check_out) {
                     $query->select('room_id')->from('detail_reservasi')->where('check_in','<=',$check_out)->where('check_out','>=',$check_in)->distinct();
-                })->get()
+                })->where('max_person','>=',$jumlah_orang)->get()
                 /*DB::table('room')
                 ->select('room.id AS room_id', 'room_category.*')
                 ->leftJoin('detail_reservasi', 'detail_reservasi.room_id', '=', 'room.id')

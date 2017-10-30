@@ -300,8 +300,8 @@
                                                 <option value="1">1</option>
                                                 <option value="2">2</option>
                                                 <option value="3">3</option>
-                                                <option value="6">4-6</option>
-                                                <option value="8">6-8</option>
+                                                <option value="4">4-6</option>
+                                                <option value="6">6-8</option>
                                             </select>
                                         </div>
                                         <div class="form-group col-md-6">
@@ -405,7 +405,8 @@
             Lobibox.notify('error', {
                 msg: '{{ $message }}',
                 delay: 10000,
-                onClickUrl: '#reservation'
+                onClickUrl: '#reservation',
+                showAfterPrevious: true
             });
             @endforeach
         </script>

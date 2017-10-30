@@ -92,7 +92,6 @@
                                     <th> #</th>
                                     <th> Nama</th>
                                     <th> Deskripsi</th>
-                                    <th> Max Person</th>
                                     <th> Harga</th>
                                     <th> Action</th>
                                 </tr>
@@ -103,7 +102,6 @@
                                         <td id="pengumuman_id">{{ $room_category->id }}</td>
                                         <td id="pengumuman_judul"> {{ $room_category->nama }}</td>
                                         <td id="pengumuman_isi"> {{ $room_category->deskripsi }}</td>
-                                        <td>{{ $room_category->max_person }}</td>
                                         <td>Rp. {{ number_format($room_category->harga,2,',','.') }}</td>
                                         <td>
                                             <form action="{{ route('room-categories.destroy', ['id' => $room_category->id ]) }}"

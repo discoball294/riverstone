@@ -34,7 +34,6 @@ class RoomCategoryController extends Controller
             $room_category->nama = $request['nama'];
             $room_category->deskripsi = $request['deskripsi'];
             $room_category->harga = $request['harga'];
-            $room_category->max_person = $request['max_person'];
             $room_category->gambar = $path;
             $save = $room_category->save();
             $room_category->fasilitas()->sync($request->get('fasilitas'));
@@ -76,7 +75,6 @@ class RoomCategoryController extends Controller
             $room_category->nama = $request['nama'];
             $room_category->deskripsi = $request['deskripsi'];
             $room_category->harga = $request['harga'];
-            $room_category->max_person = $request['max_person'];
             $save = $room_category->save();
             $room_category->fasilitas()->sync($request->get('fasilitas'));
             if ($save) {
