@@ -9,11 +9,7 @@
         </select>
         <label for="form_control_1">Tipe Kamar</label>
     </div>
-    <div class="form-group form-md-line-input">
-        <input type="text" class="form-control"
-               id="form_control_1" name="max_person" value="{{ @$rooms->max_person }}">
-        <label for="form_control_1">Max Person</label>
-    </div>
+
 
 
 </div>

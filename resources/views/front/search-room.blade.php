@@ -71,7 +71,7 @@
                                                        href="{{ route('room',['room_id' => $item->roomType->id]) }}">{{ $item->roomType->nama }}</a>
                                                 </td>
                                                 <td>
-                                                    {{ $item->max_person }}
+                                                    {{ $item->roomType->max_person }}
                                                 </td>
                                                 <td><b>Rp. {{ number_format($item->roomType->harga,0,'.','.') }}</b>
                                                 </td>
