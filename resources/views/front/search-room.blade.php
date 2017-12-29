@@ -1,6 +1,7 @@
 @extends('front.layouts.masterpage')
 @section('title')
     <title>Hasil Pencarian Kamar - Riverstone - Hotel & cottage - Batu</title>
+    <link href="{{ asset('css/offline-theme-chrome.css') }}" rel="stylesheet">
 @endsection
 @section('content')
     <section class="page-title">
@@ -31,7 +32,7 @@
                                 <input type="hidden" name="tanggal_check_in" value="{{ $send_checkin }}">
                                 <input type="hidden" name="tanggal_check_out" value="{{ $send_checkout }}">
                                 <div class="table-responsive">
-                                    <table class="table table-striped cart-table">
+                                    <table class="table cart-table tabel-cari" id="tabel-kamar">
                                         <thead>
                                         <tr>
                                             <th>Book</th>
@@ -118,10 +119,10 @@
                                 <!-- accordion 2 end-->
 
                                 <div class="cart-btn-row inline-block">
-                                    <button type="submit" class="btn btn-medium btn-dark-solid pull-right "><i
+                                    <button type="submit" class="btn btn-medium btn-dark-solid pull-right btn-reservasi"><i
                                                 class="fa fa-floppy-o"></i> Reservasi Sekarang
                                     </button>
-                                    <button class="btn btn-medium btn-dark-solid btn-transparent  pull-right"> Batalkan
+                                    <button type="reset" class="btn btn-medium btn-dark-solid btn-transparent  pull-right"> Batalkan
                                     </button>
                                 </div>
                             </form>
@@ -199,8 +200,14 @@
     </section>
 @endsection
 @section('script')
+    <script src="{{ asset("js/stacktable/stacktable.js") }}" type="text/javascript"></script>
+    <script src="{{ asset("js/offline.min.js") }}" type="text/javascript"></script>
+
+
     <script>
         $(document).ready(function (e) {
+            
+
             var limit = {{ $jumlah_ruang }};
             $("input[name='book[]']").on('change', function (evt) {
                 if ($("input[name='book[]']:checked").length > limit) {

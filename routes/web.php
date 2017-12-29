@@ -32,6 +32,13 @@ Route::match(['get','post'],'/search-room', [
     'uses' => 'RoomController@availableRooms',
     'as' => 'search-room'
 ]);
+Route::match(['get','post'],'/check-change', [
+    'uses' => 'RoomController@availableChangeDate',
+    'as' => 'check-change'
+]);
+Route::match(['get','post'],'/token', function (){
+    return csrf_token();
+});
 Route::post('/reservation', [
     'uses' => 'ReservationController@reservation',
     'as' => 'reservation'
@@ -60,8 +67,16 @@ Route::group(['middleware' => 'auth','prefix' => '/admin'], function (){
         'uses' => 'ReservationController@adminReservationDetail',
         'as' => 'detail-reservasi'
     ]);
+    Route::match(['get','post'],'/laporan', [
+        'uses' => 'LaporanController@index',
+        'as' => 'laporan'
+    ]);
     Route::post('/payment-confirmation', [
         'uses' => 'ReservationController@paymentConfirmation',
         'as' => 'payment-confirmation'
+    ]);
+    Route::post('/change-date',[
+        'uses' => 'ReservationController@changeDate',
+        'as' => 'change-date'
     ]);
 });

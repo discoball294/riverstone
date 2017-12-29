@@ -84,7 +84,7 @@
     </div>
     <!--intro post-->
     <!--room post-->
-    <div class="gray-bg p-top-30 p-bot-30" id="room-cottages">
+    <div class="page-content gray-bg" id="room-cottages">
         <div class="heading-title border-short-bottom text-center" style="margin-bottom: 10px">
             <h3 class="text-uppercase">rooms &amp; cottages</h3>
 
@@ -280,7 +280,7 @@
                                     nemis omnis fugats minima rerums unsers sadips amets.
                                 </p>
 
-                                <form class="magazine-grid login m-top-30 " action="{{ route('search-room') }}" method="get">
+                                <form class="magazine-grid login m-top-30 " action="{{ route('search-room') }}" method="post">
                                     {{ csrf_field() }}
                                     <div class="row">
                                         <div class="form-group col-md-12">

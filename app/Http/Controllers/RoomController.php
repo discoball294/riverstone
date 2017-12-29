@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\DetailReservasi;
 use App\Room;
 use App\RoomCategory;
 use Carbon\Carbon;
@@ -134,4 +135,16 @@ class RoomController extends Controller
         return redirect()->back()->withErrors($validator)->withInput($request->input());
     }
     }
+    public function availableChangeDate(Request $request){
+        $check_in = Carbon::createFromFormat('Y-m-d', $request['hidden_checkin_submit']);
+        $check_out = Carbon::createFromFormat('Y-m-d', $request['hidden_checkout_submit']);
+        $room_id = $request->room_id;
+        $available = DetailReservasi::select(['check_in','check_out'])->where('room_id','=', $room_id)->distinct()->get();
+        $disabled_checkin = array();
+        foreach ($available as $item){
+            array_push($disabled_checkin,$item->check_in,$item->check_out);
+        }
+        return \GuzzleHttp\json_encode($disabled_checkin);
+    }
+
 }

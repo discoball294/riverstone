@@ -26,6 +26,7 @@
     <link href="{{ asset('css/style-responsive.css') }}" rel="stylesheet">
     <link href="{{ asset('css/green-theme.css') }}" rel="stylesheet">
     <link href="{{ asset('css/lobibox.min.css') }}" rel="stylesheet">
+    <link href="{{ asset('css/stacktable/stacktable.css') }}" rel="stylesheet">
     <link href="{{ asset('pickadate/themes/classic.css') }}" rel="stylesheet">
     <link href="{{ asset('pickadate/themes/classic.date.css') }}" rel="stylesheet">
 

@@ -22,10 +22,10 @@ License: You must have a valid license purchased only from themeforest(the above
 
 <head>
     <meta charset="utf-8" />
-    <title>Metronic Admin Theme #2 | User Login 6</title>
+    <title>Riverstone Hotel Admin Login</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="width=device-width, initial-scale=1" name="viewport" />
-    <meta content="Preview page of Metronic Admin Theme #2 for " name="description" />
+    <meta content="Riverstone Hotel Admin Login " name="description" />
     <meta content="" name="author" />
     <!-- BEGIN GLOBAL MANDATORY STYLES -->
     <link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700&subset=all" rel="stylesheet" type="text/css" />
@@ -52,16 +52,20 @@ License: You must have a valid license purchased only from themeforest(the above
     <div class="row bs-reset">
         <div class="col-md-6 login-container bs-reset">
             <img class="login-logo login-6" src="{{ asset('img/hotel-logo.png') }}" />
+
             <div class="login-content">
                 <h1>Riverstone Hotel Admin Login</h1>
-                @if($errors->any())
-                    <div class="custom-alerts alert alert-success fade in"><button type="button" class="close" data-dismiss="alert" aria-hidden="true"></button>{{$errors->first()}}</div>
-                @endif
                 <form action="{{ route('post.login') }}" class="login-form" method="post">
                     <div class="alert alert-danger display-hide">
                         <button class="close" data-close="alert"></button>
                         <span>Enter your email and password. </span>
                     </div>
+                    @if($errors->any())
+                        <div class="alert alert-danger" >
+                            <button class="close" data-close="alert"></button>
+                            <span>{{$errors->first()}} </span>
+                        </div>
+                    @endif
                     <div class="row">
                         <div class="col-xs-6">
                             <input class="form-control form-control-solid placeholder-no-fix form-group" type="text" autocomplete="off" placeholder="Email" name="email" required/> </div>

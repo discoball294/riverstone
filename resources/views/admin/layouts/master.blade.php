@@ -45,6 +45,7 @@ License: You must have a valid license purchased only from themeforest(the above
           type="text/css"/>
     <link href="{{ asset("admin-assets/global/plugins-md.min.css") }}" rel="stylesheet" type="text/css"/>
     <link href="{{ asset('admin-assets/plugins/bootstrap-sweetalert/sweetalert.css') }}" rel="stylesheet" type="text/css"/>
+    <link href="{{ asset('admin-assets/plugins/bootstrap-daterangepicker/daterangepicker.min.css') }}" rel="stylesheet" type="text/css"/>
     <!-- END THEME GLOBAL STYLES -->
     <!-- BEGIN THEME LAYOUT STYLES -->
     <link href="{{ asset('admin-assets/layouts/layout2/css/layout.min.css') }}" rel="stylesheet" type="text/css"/>
@@ -57,7 +58,7 @@ License: You must have a valid license purchased only from themeforest(the above
 </head>
 <!-- END HEAD -->
 
-<body class="page-header-fixed page-sidebar-closed-hide-logo page-container-bg-solid page-md">
+<body class="page-header-fixed page-sidebar-fixed page-sidebar-closed-hide-logo page-container-bg-solid page-md">
 <!-- BEGIN HEADER -->
 @include('admin.layouts.includes.header')
 <!-- END HEADER -->
@@ -103,8 +104,9 @@ License: You must have a valid license purchased only from themeforest(the above
 <script src="{{ asset('admin-assets/plugins/bootstrap-switch/js/bootstrap-switch.min.js') }}"
         type="text/javascript"></script>
 <!-- END CORE PLUGINS -->
-<script src="{{ asset('admin-assets/plugins/bootstrap-sweetalert/sweetalert.js') }}"
-        type="text/javascript"></script>
+<script src="{{ asset('admin-assets/plugins/bootstrap-sweetalert/sweetalert.js') }}" type="text/javascript"></script>
+<script src="{{ asset('admin-assets/plugins/moment.min.js') }}" type="text/javascript"></script>
+<script src="{{ asset('admin-assets/plugins/bootstrap-daterangepicker/daterangepicker.min.js') }}" type="text/javascript"></script>
 <!-- BEGIN THEME GLOBAL SCRIPTS -->
 <script src="{{ asset('admin-assets/scripts/app.js') }}" type="text/javascript"></script>
 <!-- END THEME GLOBAL SCRIPTS -->

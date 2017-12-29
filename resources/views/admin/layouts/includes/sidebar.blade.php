@@ -24,12 +24,6 @@
                     <span class="title">Pengumuman</span>
                 </a>
             </li>
-            <li class="nav-item {{ Route::is('user.*') ? 'active open' : '' }}">
-                <a href="{{ route('pengumuman.index') }}" class="nav-link nav-toggle">
-                    <i class="icon-user"></i>
-                    <span class="title">User</span>
-                </a>
-            </li>
             <li class="nav-item {{ Route::is('banner.*') ? 'active open' : '' }}">
                 <a href="{{ route('banner.edit', 1) }}" class="nav-link nav-toggle">
                     <i class="icon-picture"></i>
@@ -86,6 +80,12 @@
                         </a>
                     </li>
                 </ul>
+            </li>
+            <li class="nav-item {{ Route::is('laporan') ? 'active open' : '' }}">
+                <a href="{{ route('laporan') }}" class="nav-link nav-toggle">
+                    <i class="icon-doc"></i>
+                    <span class="title">Laporan</span>
+                </a>
             </li>
         </ul>
         <!-- END SIDEBAR MENU -->

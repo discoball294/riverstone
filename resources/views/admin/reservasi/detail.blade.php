@@ -59,10 +59,6 @@
                                 <input type="hidden" value="{{ $reservasi->id }}" name="id">
                                 <input type="hidden" value="{{ $unik }}" name="unik">
                                 <input type="submit" name="btn"
-                                       class="btn btn-transparent yellow btn-outline btn-lg active"
-                                       value="Change Booking Date">
-
-                                <input type="submit" name="btn"
                                        class="btn btn-transparent red btn-outline btn-lg active" value="Cancel Booking"
                                        @if($reservasi->status==1 || $reservasi->status==2) disabled @endif>
 
@@ -91,8 +87,7 @@
                                                         <i class="fa fa-cogs"></i>Booking Details
                                                     </div>
                                                     <div class="actions">
-                                                        <a href="javascript:;" class="btn btn-default btn-sm">
-                                                            <i class="fa fa-pencil"></i> Edit </a>
+
                                                     </div>
                                                 </div>
                                                 <div class="portlet-body">
@@ -147,8 +142,7 @@
                                                         <i class="fa fa-cogs"></i>Guest Information
                                                     </div>
                                                     <div class="actions">
-                                                        <a href="javascript:;" class="btn btn-default btn-sm">
-                                                            <i class="fa fa-pencil"></i> Edit </a>
+
                                                     </div>
                                                 </div>
                                                 <div class="portlet-body">
@@ -176,8 +170,7 @@
                                                         <i class="fa fa-cogs"></i>Room List
                                                     </div>
                                                     <div class="actions">
-                                                        <a href="javascript:;" class="btn btn-default btn-sm">
-                                                            <i class="fa fa-pencil"></i> Edit </a>
+
                                                     </div>
                                                 </div>
                                                 <div class="portlet-body">
@@ -196,6 +189,10 @@
                                                             </tr>
                                                             </thead>
                                                             <tbody>
+                                                            @php
+                                                                $checkin = 0;
+                                                                $checkout = 0;
+                                                            @endphp
                                                             @foreach($reservasi->roomReservation as $item)
 
                                                                 @php
@@ -210,19 +207,74 @@
                                                                         <a href="javascript:;"> {{ $item->roomType->nama }} </a>
                                                                     </td>
                                                                     <td> {{ $item->roomType->max_person }} </td>
-                                                                    <td> {{ $checkin->toFormattedDateString() }} / {{ $checkout->toFormattedDateString() }} </td>
+                                                                    <td> {{ $checkin->toFormattedDateString() }}
+                                                                        / {{ $checkout->toFormattedDateString() }} </td>
                                                                     <td> {{ $checkin->diffInDays($checkout) }} </td>
                                                                     <td>
                                                                         Rp. {{ number_format($item->pivot->harga,0,'.','.') }}</td>
                                                                     <td>
                                                                         Rp. {{ number_format($item->pivot->subtotal,0,'.','.') }}</td>
                                                                     <td>
-                                                                        <button type="button"
-                                                                           href=""
-                                                                           class="btn btn-default btn-sm yellow-crusta">
+                                                                        <div id="daterangepicker_modal{{$loop->iteration}}"
+                                                                             class="modal fade" role="dialog"
+                                                                             aria-hidden="true" style="display: none;">
+                                                                            <div class="modal-dialog">
+                                                                                <div class="modal-content">
+                                                                                    <div class="modal-header">
+                                                                                        <button type="button"
+                                                                                                class="close"
+                                                                                                data-dismiss="modal"
+                                                                                                aria-hidden="true"></button>
+                                                                                        <h4 class="modal-title">
+                                                                                            Ubah Tanggal Check in / Check out untuk kamar {{ $item->roomType->nama }}</h4>
+                                                                                    </div>
+                                                                                    <form action="{{ route('change-date') }}" class="form-horizontal" method="post">
+                                                                                    <div class="modal-body">
+
+                                                                                            <div class="form-group">
+                                                                                                <label class="control-label col-md-4">Tanggal Check in / Check out</label>
+                                                                                                <div class="col-md-8">
+                                                                                                    <div class="input-group input-large"
+                                                                                                         id="defaultrange_modal">
+                                                                                                        {{ csrf_field() }}
+                                                                                                        <input type="text" class="form-control" name="tanggal" value="{{ $checkin->toFormattedDateString().' - '.$checkout->toFormattedDateString() }}">
+                                                                                                        <input type="hidden" name="harga" value="{{ $item->pivot->harga }}">
+                                                                                                        <input type="hidden" name="subtotal" value="">
+                                                                                                        <input type="hidden" name="reservasi_id" value="{{ $reservasi->id }}">
+                                                                                                        <input type="hidden" name="room_id" value="{{ $item->id }}">
+                                                                                                        <input type="hidden" name="checkin">
+                                                                                                        <input type="hidden" name="checkout">
+                                                                                                        <span class="input-group-btn">
+                                                                            <button class="btn default date-range-toggle"
+                                                                                    type="button">
+                                                                                <i class="fa fa-calendar"></i>
+                                                                            </button>
+                                                                        </span>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+
+                                                                                    </div>
+                                                                                    <div class="modal-footer">
+                                                                                        <button class="btn dark btn-outline"
+                                                                                                data-dismiss="modal"
+                                                                                                aria-hidden="true">Close
+                                                                                        </button>
+                                                                                        <button type="submit" class="btn green btn-primary">
+                                                                                            Save changes
+                                                                                        </button>
+                                                                                    </div>
+                                                                                    </form>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                        <input type="hidden" name="room_id" value="{{ $item->id }}" id="room_id">
+                                                                        <input type="hidden" name="room_id" value="{{ $checkin->format('Y-m-d') }}" id="checkin">
+                                                                        <input type="hidden" name="room_id" value="{{ $checkout->format('Y-m-d') }}" id="checkout">
+                                                                        <a href="#daterangepicker_modal{{$loop->iteration}}" class="btn btn-default btn-sm yellow-crusta edit" data-toggle="modal" >
                                                                             <i
                                                                                     class="fa fa-pencil"></i> Edit
-                                                                        </button>
+                                                                        </a>
 
                                                                     </td>
                                                                 </tr>
@@ -275,6 +327,71 @@
 @endsection
 @section('plugins_js')
     <script src="{{ asset('admin-assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"
-            type="text/javascript"></script>
+            type="text/javascript">
+    </script>
+    <script>
+        $(function () {
+
+
+            //get today
+            var today = new Date();
+            var dd = today.getDate();
+            var mm = today.getMonth()+1; //January is 0!
+            var yyyy = today.getFullYear();
+            if(dd<10){ dd='0'+dd }
+            if(mm<10){ mm='0'+mm }
+            today = mm+'/'+dd+'/'+yyyy;
+            var tanggal = $('input[name="tanggal"]');
+
+            $('.edit').click(function () {
+                var room_id = $(this).closest('td').find('#room_id').val();
+                var checkin = $(this).closest('td').find('#checkin').val();
+                var checkout = $(this).closest('td').find('#checkout').val();
+                var results = [];
+                $.ajax({
+                    url: '{{ route('check-change') }}',
+                    type: 'POST',
+                    data: {
+                        hidden_checkin_submit: checkin,
+                        hidden_checkout_submit: checkout,
+                        room_id: room_id,
+                        _token: '{{ csrf_token() }}'
+                    },
+                    dataType: 'json',
+                    success: function (result) {
+                        var invalid_dates = result;
+                        tanggal.daterangepicker({
+                            locale: {
+                                format: 'MMM D, YYYY'
+                            },
+                            minDate: today,
+                            autoUpdateInput: false,
+                            dateLimit: {days: 14},
+                            isInvalidDate: function (date) {
+                                return !!(invalid_dates.indexOf(date.format('YYYY-MM-DD')) > -1);
+                            }
+
+                        });
+                    }
+                })
+            });
+            tanggal.on('apply.daterangepicker', function(ev, picker) {
+                $(this).val(picker.startDate.format('MMM D, YYYY') + ' - ' + picker.endDate.format('MMM D, YYYY'));
+                $('input[name="checkin"]').val(picker.startDate.format('YYYY-MM-DD'));
+                $('input[name="checkout"]').val(picker.endDate.format('YYYY-MM-DD'));
+                var harga = $('input[name="harga"]').val();
+                var start = new Date(picker.startDate.format('YYYY-MM-DD'));
+                var end = new Date(picker.endDate.format('YYYY-MM-DD'));
+                var diff  = new Date(end - start);
+                var days  = diff/1000/60/60/24;
+                var subtotal = harga * days;
+                console.log(subtotal);
+                $('input[name="subtotal"]').val(subtotal);
+
+
+            });
+
+        })
+    </script>
 
 @endsection

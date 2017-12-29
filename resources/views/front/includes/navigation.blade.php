@@ -16,9 +16,9 @@
 
                     <li><a href="#" data-scroll>Home</a></li>
                     <li><a href="#room-cottages" data-scroll>Rooms & Cottages</a></li>
-                    <li><a href="#">Restaurant</a></li>
-                    <li><a href="#">Meeting Rooms & Hall</a></li>
-                    <li><a href="#">About Us</a></li>
+                    {{--<li><a href="#">Restaurant</a></li>
+                    <li><a href="#">Meeting Rooms & Hall</a></li>--}}
+                    <li><a href="#layanan" data-scroll>About Us</a></li>
                     <li><a href="#contact" data-scroll>Contact Us</a></li>
                     <li class="nav-icon nav-divider">
                         <a href="javascript:void(0)">|</a>

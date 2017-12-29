@@ -12,4 +12,7 @@ class RoomCategory extends Model
     public function fasilitas(){
         return $this->belongsToMany(Fasilitas::class,'fasilitas_ruangan')->withTimestamps();
     }
+    public function gambar(){
+        return $this->belongsToMany(GambarKamar::class,'gambar')->withTimestamps();
+    }
 }

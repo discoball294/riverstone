@@ -92,6 +92,8 @@
                                     <li class="text-danger">Pembayaran Anda otomatis terkonfirmasi apabila mentransfer
                                         sesuai jumlah diatas
                                     </li>
+                                    <li class="text-danger">Lakukan pembayaran dalam 24 jam
+                                    </li>
                                 </ul>
                                 <section class="border-tabs">
                                     <form>
@@ -173,10 +175,8 @@
                                 {{ csrf_field() }}
                                 <input type="hidden" value="{{ $summary->id }}" name="id">
                                 <input type="hidden" value="{{ $unik }}" name="unik">
-                                <input type="hidden" id="bank" name="bank">
-                                <button type="submit" class="btn btn-medium btn-dark-solid pull-right "> I Have
-                                    Completed
-                                    Payment
+                                <input type="hidden" id="bank" name="bank" value="bca">
+                                <button type="submit" class="btn btn-medium btn-dark-solid pull-right "> Selesai
                                 </button>
                             </form>
                         </div>

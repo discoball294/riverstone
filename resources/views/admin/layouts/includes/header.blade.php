@@ -15,7 +15,7 @@
         <!-- END RESPONSIVE MENU TOGGLER -->
         <!-- BEGIN PAGE ACTIONS -->
         <!-- DOC: Remove "hide" class to enable the page header actions -->
-        <div class="page-actions">
+        <div class="page-actions hide">
             <div class="btn-group">
                 <button type="button" class="btn btn-circle btn-outline red dropdown-toggle" data-toggle="dropdown">
                     <i class="fa fa-plus"></i>&nbsp;
@@ -56,7 +56,7 @@
         <div class="page-top">
             <!-- BEGIN HEADER SEARCH BOX -->
             <!-- DOC: Apply "search-form-expanded" right after the "search-form" class to have half expanded search box -->
-            <form class="search-form search-form-expanded" action="page_general_search_3.html" method="GET">
+            <form class="search-form search-form-expanded hide" action="page_general_search_3.html" method="GET">
                 <div class="input-group">
                     <input type="text" class="form-control" placeholder="Search..." name="query">
                     <span class="input-group-btn">
@@ -79,33 +79,8 @@
                         </a>
                         <ul class="dropdown-menu dropdown-menu-default">
                             <li>
-                                <a href="page_user_profile_1.html">
-                                    <i class="icon-user"></i> My Profile </a>
-                            </li>
-                            <li>
-                                <a href="app_calendar.html">
-                                    <i class="icon-calendar"></i> My Calendar </a>
-                            </li>
-                            <li>
-                                <a href="app_inbox.html">
-                                    <i class="icon-envelope-open"></i> My Inbox
-                                    <span class="badge badge-danger"> 3 </span>
-                                </a>
-                            </li>
-                            <li>
-                                <a href="app_todo_2.html">
-                                    <i class="icon-rocket"></i> My Tasks
-                                    <span class="badge badge-success"> 7 </span>
-                                </a>
-                            </li>
-                            <li class="divider"> </li>
-                            <li>
-                                <a href="page_user_lock_1.html">
-                                    <i class="icon-lock"></i> Lock Screen </a>
-                            </li>
-                            <li>
                                 <a href="{{ route('logout') }}">
-                                    <i class="icon-key"></i> Log Out </a>
+                                    <i class="icon-logout"></i> Log Out </a>
                             </li>
                         </ul>
                     </li>

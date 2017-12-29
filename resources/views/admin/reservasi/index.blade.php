@@ -60,19 +60,17 @@
                 <div class="portlet light portlet-fit ">
                     <div class="portlet-title">
                         <div class="caption">
-                            <i class="icon-info font-red"></i>
-                            <span class="caption-subject font-red sbold uppercase">List Reservasi</span>
+                            <i class="icon-info font-blue"></i>
+                            <span class="caption-subject font-blue sbold uppercase">List Reservasi Pending</span>
                         </div>
                         <div class="actions">
-                            <div class="btn-group btn-group-devided" data-toggle="buttons">
-                                <a href="{{ route('rooms.create') }}" data-toggle="modal"
-                                   class="btn btn-circle btn-outline green-seagreen"><i class="fa fa-plus"></i>
-                                    Tambah</a>
 
-                            </div>
 
                         </div>
                         <ul class="pagination pagination-circle" style="margin-right: 10px">
+                            {{--{{ $reservasi->appends(['expired'=> $reservasi_expired->currentPage(),'completed'=>$reservasi_completed->currentPage()])->links() }}
+                            {{ $reservasi_expired->appends(['new'=> $reservasi->currentPage(),'completed'=>$reservasi_completed->currentPage()])->links() }}
+                            {{ $reservasi_completed->appends(['new'=> $reservasi->currentPage(),'expired'=>$reservasi_expired->currentPage()])->links() }}--}}
                             <li><a href="{{ $reservasi->url(1) }}">«</a></li>
                             @if($reservasi->lastPage() > 1)
                                 @for($i = 1; $i <= $reservasi->lastPage(); $i++)
@@ -90,6 +88,7 @@
                                 <tr class="uppercase">
                                     <th> Booking ID#</th>
                                     <th> Guest</th>
+                                    <th> Booking Created</th>
                                     <th> Payment Status</th>
                                     <th> Action</th>
                                 </tr>
@@ -99,6 +98,12 @@
                                     <tr>
                                         <td>{{ $item->id }}</td>
                                         <td> {{ $item->nama }}</td>
+                                        <td> @php
+                                                $created = new \Carbon\Carbon($item->created_at);
+            $now = \Carbon\Carbon::now();
+            $difference = ($created->diff($now)->days < 1) ? 'today' : $created->diffForHumans($now);
+                                            @endphp
+                                            {{ $difference }}</td>
                                         <td>
                                             @if($item->status==0)
                                                 <span class="label label-sm label-warning"> Not Confirmed </span>
@@ -114,10 +119,176 @@
                                                   method="post" class="delete">
                                                 <a type="button"
                                                    href="{{ route('detail-reservasi', ['reservasi_id'=>$item->id]) }}"
-                                                   class="btn btn-outline red btn-sm btn-delete">
+                                                   class="btn btn-outline blue btn-xs btn-delete">
                                                     <i
                                                             class="fa fa-info"></i> Details
                                                 </a>
+                                                {{ csrf_field() }}
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- END BORDERED TABLE PORTLET-->
+            </div>
+            <div class="col-md-12">
+                <!-- BEGIN BORDERED TABLE PORTLET-->
+                <div class="portlet light portlet-fit ">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="icon-info font-red"></i>
+                            <span class="caption-subject font-red sbold uppercase">List Reservasi Expired</span>
+                        </div>
+                        <div class="actions">
+
+
+                        </div>
+                        <ul class="pagination pagination-circle" style="margin-right: 10px">
+                            <li><a href="{{ $reservasi_expired->url(1) }}">«</a></li>
+                            @if($reservasi_expired->lastPage() > 1)
+                                @for($i = 1; $i <= $reservasi_expired->lastPage(); $i++)
+                                    <li><a href="{{ $reservasi_expired->url($i) }}">{{ $i }}</a></li>
+                                @endfor
+                            @endif
+                            <li><a href="{{ $reservasi_expired->url($reservasi_expired->lastPage()) }}">»</a></li>
+                        </ul>
+
+                    </div>
+                    <div class="portlet-body">
+                        <div class="table-scrollable table-scrollable-borderless">
+                            <table class="table table-hover table-light">
+                                <thead>
+                                <tr class="uppercase">
+                                    <th> Booking ID#</th>
+                                    <th> Guest</th>
+                                    <th> Booking Created</th>
+                                    <th> Payment Status</th>
+                                    <th> Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($reservasi_expired as $item)
+                                    <tr>
+                                        <td>{{ $item->id }}</td>
+                                        <td> {{ $item->nama }}</td>
+                                        <td> @php
+                                                $created = new \Carbon\Carbon($item->created_at);
+            $now = \Carbon\Carbon::now();
+            $difference = ($created->diff($now)->days < 1) ? 'today' : $created->diffForHumans($now);
+                                            @endphp
+                                            {{ $difference }}</td>
+                                        <td>
+                                            @if($item->status==0)
+                                                <span class="label label-sm label-warning"> Not Confirmed </span>
+                                            @elseif($item->status==1)
+                                                <span class="label label-sm label-success"> Confirmed </span>
+                                            @else
+                                                <span class="label label-sm label-danger"> Canceled </span>
+                                            @endif
+                                        </td>
+
+                                        <td>
+                                            <form action="{{ route('payment-confirmation') }}"
+                                                  method="post" class="delete">
+                                                <input type="hidden" value="{{ $item->id }}" name="id">
+                                                <input type="hidden" value="00{{ $item->id }}">
+                                                <a type="button"
+                                                   href="{{ route('detail-reservasi', ['reservasi_id'=>$item->id]) }}"
+                                                   class="btn btn-outline blue btn-xs btn-delete">
+                                                    <i
+                                                            class="fa fa-info"></i> Details
+                                                </a>
+                                                <input type="hidden" name="btn" value="Cancel Booking">
+                                                <button type="submit"
+                                                        class="btn btn-outline red btn-xs btn-delete" >
+                                                    <i
+                                                            class="fa fa-close"></i> Cancel
+                                                </button>
+                                                {{ csrf_field() }}
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- END BORDERED TABLE PORTLET-->
+            </div>
+            <div class="col-md-12">
+                <!-- BEGIN BORDERED TABLE PORTLET-->
+                <div class="portlet light portlet-fit ">
+                    <div class="portlet-title">
+                        <div class="caption">
+                            <i class="icon-info font-green"></i>
+                            <span class="caption-subject font-green sbold uppercase">List Reservasi Completed</span>
+                        </div>
+                        <div class="actions">
+
+
+                        </div>
+                        <ul class="pagination pagination-circle" style="margin-right: 10px">
+                            <li><a href="{{ $reservasi_completed->url(1) }}">«</a></li>
+                            @if($reservasi_completed->lastPage() > 1)
+                                @for($i = 1; $i <= $reservasi_completed->lastPage(); $i++)
+                                    <li><a href="{{ $reservasi_completed->url($i) }}">{{ $i }}</a></li>
+                                @endfor
+                            @endif
+                            <li><a href="{{ $reservasi_completed->url($reservasi_completed->lastPage()) }}">»</a></li>
+                        </ul>
+
+                    </div>
+                    <div class="portlet-body">
+                        <div class="table-scrollable table-scrollable-borderless">
+                            <table class="table table-hover table-light">
+                                <thead>
+                                <tr class="uppercase">
+                                    <th> Booking ID#</th>
+                                    <th> Guest</th>
+                                    <th> Booking Created</th>
+                                    <th> Payment Status</th>
+                                    <th> Action</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                @foreach($reservasi_completed as $item)
+                                    <tr>
+                                        <td>{{ $item->id }}</td>
+                                        <td> {{ $item->nama }}</td>
+                                        <td> @php
+                                                $created = new \Carbon\Carbon($item->created_at);
+            $now = \Carbon\Carbon::now();
+            $difference = ($created->diff($now)->days < 1) ? 'today' : $created->diffForHumans($now);
+                                            @endphp
+                                            {{ $difference }}</td>
+                                        <td>
+                                            @if($item->status==0)
+                                                <span class="label label-sm label-warning"> Not Confirmed </span>
+                                            @elseif($item->status==1)
+                                                <span class="label label-sm label-success"> Confirmed </span>
+                                            @else
+                                                <span class="label label-sm label-danger"> Canceled </span>
+                                            @endif
+                                        </td>
+
+                                        <td>
+                                            <form action="{{ route('payment-confirmation') }}"
+                                                  method="post" class="delete">
+
+                                                <a type="button"
+                                                   href="{{ route('detail-reservasi', ['reservasi_id'=>$item->id]) }}"
+                                                   class="btn btn-outline blue btn-xs btn-delete">
+                                                    <i
+                                                            class="fa fa-info"></i> Details
+                                                </a>
+
                                                 {{ csrf_field() }}
                                             </form>
                                         </td>
@@ -210,7 +381,7 @@
                 var form = this;
                 e.preventDefault();
                 swal({
-                        title: "Apakah anda yakin akan menghapus data ini?",
+                        title: "Apakah anda yakin akan membatalkan pemesanan ini?",
                         type: "warning",
                         showCancelButton: true,
                         confirmButtonClass: "btn-danger",
