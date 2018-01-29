@@ -16,7 +16,26 @@
             <div class="m-bot-100">
                 <div class="col-md-8">
                     <div class="full-width">
-                        <img src="{{ asset($tipe_kamar->gambar) }}" alt="">
+                        <div class="post-slider post-img text-center">
+
+                            <div class="flex-viewport">
+                                <ul class="slides">
+                                    @foreach($tipe_kamar->gambar as $gambar)
+                                        <li class="">
+                                            <a href="javascript:;" title="Freshness Photo"><img
+                                                        src="{{ asset($gambar->url) }}" alt=""
+                                                        draggable="false"></a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                            <ul class="flex-direction-nav">
+                                <li class="flex-nav-prev"><a class="flex-prev" href="#">Previous</a>
+                                </li>
+                                <li class="flex-nav-next"><a class="flex-next" href="#">Next</a>
+                                </li>
+                            </ul>
+                        </div>
                     </div>
                 </div>
                 <div class="col-md-4">

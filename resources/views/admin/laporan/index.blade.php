@@ -25,14 +25,13 @@
             <small>Bulanan</small>
         </h1>
         <div class="page-bar">
-            <ul class="page-breadcrumb">
+            <ul class="page-breadcrumb breadcrumb">
                 <li>
-                    <i class="icon-home"></i>
                     <a href="index.html">Home</a>
-                    <i class="fa fa-angle-right"></i>
+                    <i class="fa fa-circle"></i>
                 </li>
                 <li>
-                    <span>Laporan</span>
+                    <span class="active">Pengumuman</span>
                 </li>
             </ul>
             <div class="page-toolbar">

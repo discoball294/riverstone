@@ -8,21 +8,15 @@
         <h1 class="page-title"> Dashboard
             <small>statistics & charts</small>
         </h1>
-        <div class="page-bar">
-            <ul class="page-breadcrumb">
-                <li>
-                    <i class="icon-home"></i>
-                    <a href="index.html">Home</a>
-                    <i class="fa fa-angle-right"></i>
-                </li>
-                <li>
-                    <span>Dashboard</span>
-                </li>
-            </ul>
-            <div class="page-toolbar">
-
-            </div>
-        </div>
+        <ul class="page-breadcrumb breadcrumb">
+            <li>
+                <a href="index.html">Home</a>
+                <i class="fa fa-circle"></i>
+            </li>
+            <li>
+                <span class="active">Dashboard</span>
+            </li>
+        </ul>
         <!-- END PAGE HEADER-->
         <div class="row">
             <div class="col-lg-3 col-md-3 col-sm-6 col-xs-12">
@@ -93,11 +87,11 @@
             </div>
         </div>
         <div class="row">
-            <div class="col-lg-6 col-xs-12 col-sm-12">
+            <div class="col-lg-12 col-xs-12 col-sm-12">
                 <div class="portlet light ">
                     <div class="portlet-title">
                         <div class="caption">
-                            <span class="caption-subject bold uppercase font-dark">Monthly Revenue</span>
+                            <span class="caption-subject bold uppercase font-dark">Last 12 Month Revenue</span>
 
                         </div>
 
@@ -107,7 +101,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6 col-xs-12 col-sm-12">
+            <div class="col-lg-12 col-xs-12 col-sm-12">
                 <div class="portlet light ">
                     <div class="portlet-title">
                         <div class="caption ">
@@ -129,45 +123,94 @@
 <script src="{{ asset('admin-assets/plugins/jquery.counterup.min.js') }}" type="text/javascript"></script>
 <script src="{{ asset('admin-assets/plugins/amcharts/amcharts/amcharts.js') }}" type="text/javascript"></script>
 <script src="{{ asset('admin-assets/plugins/amcharts/amcharts/serial.js') }}" type="text/javascript"></script>
-<script src="{{ asset('admin-assets/plugins/amcharts/amcharts/themes/light.js') }}" type="text/javascript"></script>
+<script src="{{ asset('admin-assets/plugins/amcharts/amcharts/themes/light.js.js') }}" type="text/javascript"></script>
 <script>
-    var chart = AmCharts.makeChart( "dashboard_monthly_revenue", {
+    
+    var chart = AmCharts.makeChart("dashboard_monthly_revenue", {
         "type": "serial",
         "theme": "light",
-        "dataProvider":  {!! json_encode($chart_monthly_revenue) !!}  ,
-        "valueAxes": [ {
-            "gridColor": "#FFFFFF",
-            "gridAlpha": 0.2,
-            "dashLength": 0,
-            "title": "Income Monthly (Rp)"
-        } ],
-        "gridAboveGraphs": true,
-        "startDuration": 1,
-        "graphs": [ {
-            "balloonText": "Income in [[category]]: <b>Rp. [[value]]</b>",
-            "fillAlphas": 0.8,
-            "lineAlpha": 0.2,
-            "type": "column",
-            "valueField": "Total"
-        } ],
-        "chartCursor": {
-            "categoryBalloonEnabled": false,
-            "cursorAlpha": 0,
-            "zoomable": false
+        "marginLeft": 100,
+        "autoMarginOffset": 20,
+        "mouseWheelZoomEnabled":true,
+        "dataDateFormat": "YYYY-MM-DD",
+        "valueAxes": [{
+            "id": "v1",
+            "axisAlpha": 0,
+            "position": "left",
+            "ignoreAxisWidth":true,
+            "title": 'Revenue(Rp.)'
+        }],
+        "balloon": {
+            "borderThickness": 1,
+            "shadowAlpha": 0
         },
-        "categoryField": "Month",
+        "graphs": [{
+            "id": "g1",
+            "balloon":{
+                "drop":true,
+                "adjustBorderColor":false,
+                "color":"#ffffff"
+            },
+            "bullet": "round",
+            "bulletBorderAlpha": 1,
+            "bulletColor": "#FFFFFF",
+            "bulletSize": 5,
+            "hideBulletsCount": 50,
+            "lineThickness": 2,
+            "title": "red line",
+            "useLineColorForBulletBorder": true,
+            "valueField": "value",
+            "balloonText": "<span style='font-size:18px;'>Rp. [[value]]</span>"
+        }],
+        "chartScrollbar": {
+            "graph": "g1",
+            "oppositeAxis":false,
+            "offset":30,
+            "scrollbarHeight": 80,
+            "backgroundAlpha": 0,
+            "selectedBackgroundAlpha": 0.1,
+            "selectedBackgroundColor": "#888888",
+            "graphFillAlpha": 0,
+            "graphLineAlpha": 0.5,
+            "selectedGraphFillAlpha": 0,
+            "selectedGraphLineAlpha": 1,
+            "autoGridCount":true,
+            "color":"#AAAAAA"
+        },
+        "chartCursor": {
+            "pan": true,
+            "valueLineEnabled": true,
+            "valueLineBalloonEnabled": true,
+            "cursorAlpha":1,
+            "cursorColor":"#258cbb",
+            "limitToGraph":"g1",
+            "valueLineAlpha":0.2,
+            "valueZoomable":true
+        },
+        "valueScrollbar":{
+            "oppositeAxis":false,
+            "offset":50,
+            "scrollbarHeight":10
+        },
+        "categoryField": "date",
         "categoryAxis": {
-            "gridPosition": "start",
-            "gridAlpha": 0,
-            "tickPosition": "start",
-            "tickLength": 20,
-            "title": "Month"
+            "parseDates": true,
+            "dashLength": 1,
+            "minorGridEnabled": true
         },
         "export": {
             "enabled": true
-        }
+        },
+        "dataProvider": {!! json_encode($chart_monthly_revenue) !!}
+    });
 
-    } );
+    chart.addListener("rendered", zoomChart);
+
+    zoomChart();
+
+    function zoomChart() {
+        chart.zoomToIndexes(chart.dataProvider.length - 40, chart.dataProvider.length - 1);
+    }
 
     var chart2 = AmCharts.makeChart( "dashboard_monthly_book", {
         "type": "serial",

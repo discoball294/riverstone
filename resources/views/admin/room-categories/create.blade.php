@@ -9,6 +9,9 @@
     <link href="{{ asset('admin-assets/plugins/bootstrap-fileinput/bootstrap-fileinput.css') }}"
           rel="stylesheet"
           type="text/css"/>
+    <link href="{{ asset('css/fileinput.css') }}"
+          rel="stylesheet"
+          type="text/css"/>
     <style>
         td {
             max-width: 100px;
@@ -44,18 +47,15 @@
                 </ul>
             </div>
         @endif
-        <div class="page-bar">
-            <ul class="page-breadcrumb">
-                <li>
-                    <i class="icon-home"></i>
-                    <a href="index.html">Home</a>
-                    <i class="fa fa-angle-right"></i>
-                </li>
-                <li>
-                    <a href="#">Tipe Kamar</a>
-                </li>
-            </ul>
-        </div>
+        <ul class="page-breadcrumb breadcrumb">
+            <li>
+                <a href="index.html">Home</a>
+                <i class="fa fa-circle"></i>
+            </li>
+            <li>
+                <span class="active">Tipe Kamar</span>
+            </li>
+        </ul>
         <!-- END PAGE HEADER-->
         <div class="row">
             <div class="col-md-12">
@@ -90,11 +90,22 @@
             type="text/javascript"></script>
     <script src="{{ asset('admin-assets/plugins/bootstrap-fileinput/bootstrap-fileinput.js') }}"
             type="text/javascript"></script>
+    <script src="{{ asset('js/fileinput.js') }}" type="text/javascript"></script>
     <script>
         $(document).ready(function (e) {
             $('.datepicker').datepicker({
                 autoclose: true
             });
+            $('#input_gambar').fileinput({
+                maxFileCount: 3,
+                maxFileSize: 3000,
+                showUpload: false,
+                showRemove: false,
+                browseClass: "btn btn-success",
+                browseLabel: "Pick Image",
+                browseIcon: "<i class=\"glyphicon glyphicon-picture\"></i> "
+            });
+
             $('#btn-tambah').click(function (e) {
                 $('#form-tambah').submit();
             });

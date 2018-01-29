@@ -163,7 +163,8 @@ return [
         Illuminate\Validation\ValidationServiceProvider::class,
         Illuminate\View\ViewServiceProvider::class,
         Barryvdh\LaravelIdeHelper\IdeHelperServiceProvider::class,
-
+        Yajra\DataTables\DataTablesServiceProvider::class,
+        Gabievi\Promocodes\PromocodesServiceProvider::class,
         /*
          * Package Service Providers...
          */
@@ -228,7 +229,8 @@ return [
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
         'NoCaptcha' => Anhskohbo\NoCaptcha\Facades\NoCaptcha::class,
-
+        'Datatables' => Yajra\Datatables\Facades\Datatables::class,
+        'Promocodes' => Gabievi\Promocodes\Facades\Promocodes::class,
     ],
 
 ];

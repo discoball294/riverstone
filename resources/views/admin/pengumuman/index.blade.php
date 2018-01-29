@@ -41,18 +41,15 @@
                 </ul>
             </div>
         @endif
-        <div class="page-bar">
-            <ul class="page-breadcrumb">
-                <li>
-                    <i class="icon-home"></i>
-                    <a href="index.html">Home</a>
-                    <i class="fa fa-angle-right"></i>
-                </li>
-                <li>
-                    <a href="#">Pengumuman</a>
-                </li>
-            </ul>
-        </div>
+        <ul class="page-breadcrumb breadcrumb">
+            <li>
+                <a href="index.html">Home</a>
+                <i class="fa fa-circle"></i>
+            </li>
+            <li>
+                <span class="active">Pengumuman</span>
+            </li>
+        </ul>
         <!-- END PAGE HEADER-->
         <div class="row">
             <div class="col-md-12">
@@ -92,8 +89,7 @@
                                     <th> #</th>
                                     <th> Judul</th>
                                     <th> Deskripsi</th>
-                                    <th> Start Date</th>
-                                    <th> Status</th>
+                                    <th> End Date</th>
                                     <th> Action</th>
                                 </tr>
                                 </thead>
@@ -104,14 +100,6 @@
                                         <td id="pengumuman_judul"> {{ $pengumuman->judul }}</td>
                                         <td id="pengumuman_isi"> {{ $pengumuman->pengumuman }}</td>
                                         <td id="pengumuman_tanggal"> {{ $pengumuman->tanggal }}</td>
-                                        <td>
-                                            @if($pengumuman->status == 'Active')
-                                                <span class="label label-sm label-success"> {{ $pengumuman->status }} </span>
-                                            @else
-                                                <span class="label label-sm label-danger"> {{ $pengumuman->status }} </span>
-                                            @endif
-
-                                        </td>
                                         <td>
                                             <form action="{{ route('pengumuman.destroy', ['id' => $pengumuman->id ]) }}"
                                                   method="post" class="delete">

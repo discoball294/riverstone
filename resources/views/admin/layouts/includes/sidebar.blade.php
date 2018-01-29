@@ -10,7 +10,7 @@
         <!-- DOC: Set data-auto-scroll="false" to disable the sidebar from auto scrolling/focusing -->
         <!-- DOC: Set data-keep-expand="true" to keep the submenues expanded -->
         <!-- DOC: Set data-auto-speed="200" to adjust the sub menu slide up/down speed -->
-        <ul class="page-sidebar-menu  page-header-fixed " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
+        <ul class="page-sidebar-menu  page-header-fixe " data-keep-expanded="false" data-auto-scroll="true" data-slide-speed="200">
             <li class="nav-item{{ Route::is('admin-index') ? 'active open' : '' }}">
                 <a href="{{ route('admin-index') }}" class="nav-link nav-toggle">
                     <i class="icon-home"></i>
@@ -22,6 +22,12 @@
                 <a href="{{ route('pengumuman.index') }}" class="nav-link nav-toggle">
                     <i class="icon-info"></i>
                     <span class="title">Pengumuman</span>
+                </a>
+            </li>
+            <li class="nav-item {{ Route::is('kode-promo.index') || Route::is('kode-promo.create') ||   Route::is('kode-promo.edit') ? 'active open' : '' }}">
+                <a href="{{ route('kode-promo.index') }}" class="nav-link nav-toggle">
+                    <i class="icon-tag"></i>
+                    <span class="title">Kode Promo</span>
                 </a>
             </li>
             <li class="nav-item {{ Route::is('banner.*') ? 'active open' : '' }}">

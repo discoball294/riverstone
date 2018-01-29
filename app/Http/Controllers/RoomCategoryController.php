@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Fasilitas;
+use App\GambarKamar;
 use App\RoomCategory;
 use Illuminate\Http\Request;
 
@@ -25,24 +26,32 @@ class RoomCategoryController extends Controller
         $validator = \Validator::make($request->all(), [
             'nama' => 'required|max:100',
             'deskripsi' => 'required|max:255',
-            'fasilitas' => 'required',
-            'gambar' => 'required|mimes:jpeg,bmp,png'
+            'fasilitas' => 'required'
         ]);
         if ($validator->passes()) {
-            $path = $request->gambar->store('images','public');
             $room_category = new RoomCategory();
             $room_category->nama = $request['nama'];
             $room_category->deskripsi = $request['deskripsi'];
             $room_category->harga = $request['harga'];
             $room_category->max_person = $request['max_person'];
-            $room_category->gambar = $path;
             $save = $room_category->save();
+            if ($request->hasFile('gambar')) {
+                $files = $request->gambar;
+                foreach ($files as $file) {
+                    $path = $file->store('images', 'public');
+                    $gambar = new GambarKamar();
+                    $gambar->alt = 'Gambar';
+                    $gambar->url = $path;
+                    $gambar->kategori()->associate($room_category);
+                    $gambar->save();
+                }
+            }
             $room_category->fasilitas()->sync($request->get('fasilitas'));
             if ($save) {
                 $request->session()->flash('alert-success', 'Tipe Ruang telah ditambahkan');
                 return redirect()->back();
             } else {
-                    $request->session()->flash('alert-warning', 'Tipe Ruang gagal ditambahkan');
+                $request->session()->flash('alert-warning', 'Tipe Ruang gagal ditambahkan');
                 return redirect()->back();
             }
         } else {
@@ -63,15 +72,21 @@ class RoomCategoryController extends Controller
         $validator = \Validator::make($request->all(), [
             'nama' => 'required|max:100',
             'deskripsi' => 'required|max:255',
-            'fasilitas' => 'required',
-            'gambar' => 'mimes:jpeg,bmp,png'
+            'fasilitas' => 'required'
         ]);
         if ($validator->passes()) {
             $room_category = RoomCategory::find($id);
-            if ($request->hasFile('gambar')){
-                \File::delete($request['old_gambar']);
-                $path = $request->gambar->store('images','public');
-                $room_category->gambar = $path;
+            if ($request->hasFile('gambar')) {
+                $files = $request->gambar;
+                $room_category->gambar()->delete();
+                foreach ($files as $file) {
+                    $path = $file->store('images', 'public');
+                    $gambar = new GambarKamar();
+                    $gambar->alt = 'Gambar';
+                    $gambar->url = $path;
+                    $gambar->kategori()->associate($room_category);
+                    $gambar->save();
+                }
             }
             $room_category->nama = $request['nama'];
             $room_category->deskripsi = $request['deskripsi'];
@@ -95,6 +110,8 @@ class RoomCategoryController extends Controller
     public function destroy(Request $request, $id)
     {
         $room_categories = RoomCategory::find($id);
+        $room_categories->gambar()->delete();
+        $room_categories->fasilitas()->detach();
         if ($room_categories->delete()) {
             $request->session()->flash('alert-success', 'Barang telah dihapus');
             return redirect()->back();

@@ -17,7 +17,7 @@ class RestaurantController extends Controller
     {
         $validator = \Validator::make($request->all(), [
             'nama' => 'required|max:255',
-            'deskripsi' => 'required|max:255',
+            'deskripsi' => 'required|max:1000',
             'gambar' => 'mimes:jpeg,bmp,png,jpg'
         ]);
         if ($validator->passes()) {

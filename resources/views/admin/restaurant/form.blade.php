@@ -6,8 +6,7 @@
         <label for="form_control_1">Nama</label>
     </div>
     <div class="form-group form-md-line-input">
-        <input type="text" class="form-control"
-               id="form_control_1" name="deskripsi" value="{{ @$restaurant->deskripsi }}">
+        <textarea class="form-control" id="form_control_1" name="deskripsi" rows="10">{{ @$restaurant->deskripsi }}</textarea>
         <label for="form_control_1">Deskripsi</label>
     </div>
     <div class="fileinput fileinput-new" data-provides="fileinput">

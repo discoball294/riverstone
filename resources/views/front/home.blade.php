@@ -19,34 +19,9 @@
 @endsection
 @section('content')
     <!--book form-->
-    <div class="gray-bg p-tb-10">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-
-                    <div class="full-width promo-box gray-bg m-bot-10">
-                        <div class="container">
-                            <div class="col-md-12">
-                                <div class="promo-info">
-                                    <h4>new <span class="theme-color">offer</span> for this <span class="theme-color">summer</span>
-                                    </h4>
-                                    <span>Nullam ut consectetur dolor. Sed sit amet iaculis nisi. Mauris ridiculus elementum non felis etewe blandit. </span>
-                                </div>
-                                <div class="promo-btn">
-                                    <a href="#reservation" class="btn btn-medium btn-rounded btn-dark-solid  text-uppercase" data-scroll>Reservasi
-                                        Sekarang</a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </div>
-    </div>
     <!--book form-->
     <!--intro post-->
-    <div class="page-content" id="layanan">
+    <div class="page-content p-bot-0" id="layanan">
         <div class="container">
             <div class="row">
 
@@ -54,31 +29,74 @@
                     <div class="m-bot-30">
                         <img class="retina" src="img/hotel/obj-1@2x.png" alt="" style="height: 81px; width: auto;">
                     </div>
-                    <h3 class="text-uppercase">welcome to our resort &amp; spa</h3>
-
+                    <h3 class="text-uppercase">welcome to our hotel &amp; restaurant</h3>
+                    <p class="half-txt p-top-20">3 Menit dari Jatim Park, Museum Satwa, Batu Secret Zoo, Eco Green Park, BNS, Museum Angkut, Klub Bunga, Kusuma Agro Wisata, Lippo Plaza, Alun-alun kota Batu baik (kendaraan pribadi maupun shuttle car)</p>
                 </div>
 
                 <!--post style 2 start-->
-                <div class="post-list catering-list text-center hotel-intro-box-resize">
-                    @foreach($layanan as $item_layanan)
-                        <div class="col-md-4">
-                            <div class="post-single">
-                                <div class="post-img">
-                                    <img class="circle" src="{{ asset($item_layanan->gambar) }}" alt="">
+
+                {{--<div class="post-list catering-list text-center hotel-intro-box-resize carousel slide"
+                     data-ride="carousel">
+                    <div class="carousel-inner">
+                        @foreach($layanan as $item_layanan)
+                            <div class="col-md-4 item active">
+                                <div class="post-single">
+                                    <div class="post-img">
+                                        <img class="circle" src="{{ asset($item_layanan->gambar) }}" alt="">
+                                    </div>
+                                    <div class="post-desk">
+                                        <h4 class="text-uppercase">
+                                            <a href="#">{{ $item_layanan->nama }}</a>
+                                        </h4>
+                                        <p>
+                                            {{ $item_layanan->deskripsi }}
+                                        </p>
+                                    </div>
                                 </div>
-                                <div class="post-desk">
-                                    <h4 class="text-uppercase">
-                                        <a href="#">{{ $item_layanan->nama }}</a>
-                                    </h4>
+                            </div>
+                        @endforeach
+                        <a class="left carousel-control" href="#myCarousel" data-slide="prev">
+                            <span class="glyphicon glyphicon-chevron-left"></span>
+                            <span class="sr-only">Previous</span>
+                        </a>
+                        <a class="right carousel-control" href="#myCarousel" data-slide="next">
+                            <span class="glyphicon glyphicon-chevron-right"></span>
+                            <span class="sr-only">Next</span>
+                        </a>
+                    </div>
+                </div>--}}
+                <!--post style 2 end-->
+            </div>
+        </div>
+    </div>
+
+    <div class="testimonial-parallax ">
+        <div class="overlay-light">
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-12">
+                        <!--testimonial start-->
+                        <div id="carousel-object" class="text-center dark-txt side-object ">
+                            @foreach($layanan as $item_layanan)
+                            <div class="item">
+                                <div class="object">
+                                    <img src="{{ asset($item_layanan->gambar) }}" alt=""/>
+                                </div>
+
+                                <div class="content">
+                                    <h4 class="text-uppercase">{{ $item_layanan->nama }}</h4>
                                     <p>
                                         {{ $item_layanan->deskripsi }}
                                     </p>
+
                                 </div>
                             </div>
+                            @endforeach
+
                         </div>
-                    @endforeach
+                        <!--testimonial end-->
+                    </div>
                 </div>
-                <!--post style 2 end-->
             </div>
         </div>
     </div>
@@ -101,7 +119,27 @@
                                 <div class="post-single">
                                     <div class="col-md-6">
                                         <div class="post-img">
-                                            <img src="{{ asset($item->gambar) }}" alt="">
+                                            <div class="post-slider post-img text-center">
+
+                                                <div class="flex-viewport">
+                                                    <ul class="slides">
+                                                        @foreach($item->gambar as $gambar)
+                                                            <li class="">
+                                                                <a href="javascript:;" title="Freshness Photo"><img
+                                                                            src="{{ asset($gambar->url) }}" alt=""
+                                                                            draggable="false"></a>
+                                                            </li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+
+                                                <ul class="flex-direction-nav">
+                                                    <li class="flex-nav-prev"><a class="flex-prev" href="#">Previous</a>
+                                                    </li>
+                                                    <li class="flex-nav-next"><a class="flex-next" href="#">Next</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -113,11 +151,11 @@
                                             <p>
                                                 {{ $item->deskripsi }}
                                             </p>
-                                                <ul>
-                                                    @foreach($fasilitas as $f)
-                                                        <li>{{ $f->fasilitas }}</li>
-                                                    @endforeach
-                                                </ul>
+                                            <ul>
+                                                @foreach($fasilitas as $f)
+                                                    <li>{{ $f->fasilitas }}</li>
+                                                @endforeach
+                                            </ul>
 
 
                                             <p class="theme-color txt-xl">Max Guest: {{ $item->max_person }}</p>
@@ -132,9 +170,9 @@
 
                     </div>
                 </div>
-                    <div class="divider d-solid d-single text-center">
-                        <span class="dot"> </span>
-                    </div>
+                <div class="divider d-solid d-single text-center">
+                    <span class="dot"> </span>
+                </div>
             @else
                 <div class="page-content p-bot-0" style="padding: 50px 0">
                     <div class="container">
@@ -164,7 +202,26 @@
 
                                     <div class="col-md-6">
                                         <div class="post-img">
-                                            <img src="{{ asset($item->gambar) }}" alt="">
+                                            <div class="post-slider post-img text-center">
+
+                                                <div class="flex-viewport">
+                                                    <ul class="slides">
+                                                        @foreach($item->gambar as $gambar)
+                                                            <li class="">
+                                                                <a href="javascript:;" title="Freshness Photo"><img
+                                                                            src="{{ asset($gambar->url) }}" alt=""
+                                                                            draggable="false"></a>
+                                                            </li>
+                                                        @endforeach
+                                                    </ul>
+                                                </div>
+                                                <ul class="flex-direction-nav">
+                                                    <li class="flex-nav-prev"><a class="flex-prev" href="#">Previous</a>
+                                                    </li>
+                                                    <li class="flex-nav-next"><a class="flex-next" href="#">Next</a>
+                                                    </li>
+                                                </ul>
+                                            </div>
                                         </div>
                                     </div>
 
@@ -174,14 +231,15 @@
                         </div>
                     </div>
                 </div>
-                    <div class="divider d-solid d-single text-center">
-                        <span class="dot"> </span>
-                    </div>
+                <div class="divider d-solid d-single text-center">
+                    <span class="dot"> </span>
+                </div>
             @endif
         @endforeach
     </div>
     <!--room post-->
-    <div class="post-list-aside right-side fast-food" style="background: url({{ $restaurant->gambar }}) right 30px no-repeat!important;" id="restaurant">
+    <div class="post-list-aside right-side fast-food"
+         style="background: url({{ $restaurant->gambar }}) right 30px no-repeat!important;" id="restaurant">
         <div class="post-single">
 
             <div class="container">
@@ -214,12 +272,9 @@
                 <div class="col-md-12">
 
                     <div class="heading-title border-short-bottom text-center ">
-                        <h3 class="text-uppercase">Upcoming Events</h3>
+                        <h3 class="text-uppercase">Informasi</h3>
 
-                        <p class="half-txt p-top-20">Nam libero tempore, cum soluta nobis est eligendi optio cumque
-                            nihil impedit quo minus id quod maxime placeat facere possimus. Nam libero tempore, cum
-                            soluta nobis est eligendi optio cumque nihil impedit quo minus id quod maxime placeat
-                            facere possimus.</p>
+                        <p class="half-txt p-top-20">Informasi atau promo yang sedang berlangsung</p>
                     </div>
 
                     <!--tabs square start-->
@@ -239,7 +294,7 @@
                                     <div id="tab-{{ $loop->iteration }}"
                                          class="tab-pane @if($loop->iteration == 1){{ 'active' }}@endif">
                                         <div class="heading-title-alt">
-                                            <span class="heading-sub-title-alt text-uppercase theme-color-">{{ $item->tanggal }}</span>
+                                            <span class="heading-sub-title-alt text-uppercase theme-color-">Tanggal Promo Berakhir {{ \Carbon\Carbon::createFromFormat('Y-m-d',$item->tanggal)->toFormattedDateString() }}</span>
                                             <h2 class="text-uppercase">{{ $item->judul }}</h2>
                                         </div>
                                         {{ $item->pengumuman }}
@@ -276,11 +331,11 @@
                                     <h3 class="text-uppercase">Cari Kamar</h3>
                                 </div>
                                 <p>
-                                    Lid est laborum dolo rumes fugats untras. Etharums ser quidem rerum facilis dolores
-                                    nemis omnis fugats minima rerums unsers sadips amets.
+                                    Cari Kamar yang tersedia sesuai dengan tanggal yang kamu inginkan
                                 </p>
 
-                                <form class="magazine-grid login m-top-30 " action="{{ route('search-room') }}" method="post">
+                                <form class="magazine-grid login m-top-30 " action="{{ route('search-room') }}"
+                                      method="post">
                                     {{ csrf_field() }}
                                     <div class="row">
                                         <div class="form-group col-md-12">
@@ -322,7 +377,9 @@
 
 
                                 </form>
-
+                                <p class="text-danger">
+                                    Atau batalkan pesanan anda <a href="{{ route('cancel') }}" >disini</a>
+                                </p>
                             </div>
                         </div>
                     </div>
@@ -339,8 +396,7 @@
 
             <div class="heading-title-alt border-short-bottom text-center ">
                 <h3 class="text-uppercase">contact us</h3>
-                <div class="half-txt">Nam libero tempore, cum soluta nobis est eligendi optio cumque nihil impedit quo
-                    minus id quod maxime placeat facere possimus. Nam libero tempore
+                <div class="half-txt">
                 </div>
             </div>
 
@@ -354,8 +410,7 @@
                             <h4>location</h4>
                         </div>
                         <div class="desc">
-                            Upper Level, Overseas Passenger <br>
-                            Terminal, The Rocks, Sydney 2000
+                            Jl. Agus Salim No.97, Temas, Kec. Batu,<br> Kota Batu, Jawa Timur 65316
                         </div>
                     </div>
                 </div>
@@ -369,7 +424,7 @@
                         </div>
                         <div class="desc">
                             Any time. We are open 24/7 <br>
-                            +1 2345-67-89000
+                            0341-01293913
                         </div>
                     </div>
                 </div>
@@ -383,7 +438,7 @@
                         </div>
                         <div class="desc">
                             get support via email <br>
-                            mail@massivetheme.com
+                            info@riverstone.com
                         </div>
                     </div>
                 </div>
@@ -400,14 +455,14 @@
 
 @endsection
 @section('script')
-        <script>
-            @foreach ($errors->all() as $message)
-            Lobibox.notify('error', {
-                msg: '{{ $message }}',
-                delay: 10000,
-                onClickUrl: '#reservation',
-                showAfterPrevious: true
-            });
-            @endforeach
-        </script>
+    <script>
+        @foreach ($errors->all() as $message)
+        Lobibox.notify('error', {
+            msg: '{{ $message }}',
+            delay: 10000,
+            onClickUrl: '#reservation',
+            showAfterPrevious: true
+        });
+        @endforeach
+    </script>
 @endsection

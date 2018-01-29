@@ -9,6 +9,9 @@
     <link href="{{ asset('admin-assets/plugins/bootstrap-fileinput/bootstrap-fileinput.css') }}"
           rel="stylesheet"
           type="text/css"/>
+    <link href="{{ asset('css/fileinput.css') }}"
+          rel="stylesheet"
+          type="text/css"/>
     <style>
         td {
             max-width: 100px;
@@ -44,18 +47,15 @@
                 </ul>
             </div>
         @endif
-        <div class="page-bar">
-            <ul class="page-breadcrumb">
-                <li>
-                    <i class="icon-home"></i>
-                    <a href="index.html">Home</a>
-                    <i class="fa fa-angle-right"></i>
-                </li>
-                <li>
-                    <a href="#">Tipe Kamar</a>
-                </li>
-            </ul>
-        </div>
+        <ul class="page-breadcrumb breadcrumb">
+            <li>
+                <a href="index.html">Home</a>
+                <i class="fa fa-circle"></i>
+            </li>
+            <li>
+                <span class="active">Tipe Kamar</span>
+            </li>
+        </ul>
         <!-- END PAGE HEADER-->
         <div class="row">
             <div class="col-md-12">
@@ -70,7 +70,9 @@
                         </div>
                     </div>
                     <div class="portlet-body form">
-                        <form id="form-tambah" role="form" method="post" action="{{ route('room-categories.update', $room_categories->id) }}" enctype="multipart/form-data">
+                        <form id="form-tambah" role="form" method="post"
+                              action="{{ route('room-categories.update', $room_categories->id) }}"
+                              enctype="multipart/form-data">
 
                             @include('admin.room-categories.form')
                             {{ method_field('PUT') }}
@@ -93,6 +95,7 @@
             type="text/javascript"></script>
     <script src="{{ asset('admin-assets/plugins/bootstrap-fileinput/bootstrap-fileinput.js') }}"
             type="text/javascript"></script>
+    <script src="{{ asset('js/fileinput.js') }}" type="text/javascript"></script>
     <script>
         $(document).ready(function (e) {
             $('.datepicker').datepicker({
@@ -100,6 +103,25 @@
             });
             $('#btn-tambah').click(function (e) {
                 $('#form-tambah').submit();
+            });
+            var url1, url2, url3;
+                    @if($room_categories->gambar()->exists())
+                    @foreach($room_categories->gambar as $gambar)
+            url{{$loop->iteration}} = '{{ asset($gambar->url) }}';
+            @endforeach
+            @endif
+            $('#input_gambar').fileinput({
+                initialPreview: [url1, url2, url3],
+                initialPreviewAsData: true,
+                maxFileCount: 3,
+
+                overwriteInitial: true,
+                maxFileSize: 3000,
+                showUpload: false,
+                showRemove: false,
+                browseClass: "btn btn-success",
+                browseLabel: "Pick Image",
+                browseIcon: "<i class=\"glyphicon glyphicon-picture\"></i> "
             });
             $('.edit-btn').click(function (e) {
                 var pengumuman_id = $(this).closest('tr').find('#pengumuman_id').text();

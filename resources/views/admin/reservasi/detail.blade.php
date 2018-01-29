@@ -21,18 +21,15 @@
         <h1 class="page-title"> Reservation Detail View
             <small>view reservation details</small>
         </h1>
-        <div class="page-bar">
-            <ul class="page-breadcrumb">
-                <li>
-                    <i class="icon-home"></i>
-                    <a href="index.html">Home</a>
-                    <i class="fa fa-angle-right"></i>
-                </li>
-                <li>
-                    <span>Reservation Details</span>
-                </li>
-            </ul>
-        </div>
+        <ul class="page-breadcrumb breadcrumb">
+            <li>
+                <a href="index.html">Home</a>
+                <i class="fa fa-circle"></i>
+            </li>
+            <li>
+                <span class="active">Reservasi</span>
+            </li>
+        </ul>
         <!-- END PAGE HEADER-->
         <div class="row">
             <div class="col-md-12">
@@ -63,7 +60,7 @@
                                        @if($reservasi->status==1 || $reservasi->status==2) disabled @endif>
 
                                 <input type="submit" name="btn"
-                                       class="btn btn-transparent green btn-outline btn-lg active"
+                                       class="btn btn-transparent green-meadow btn-outline btn-lg active"
                                        value="Confirm Payment"
                                        @if($reservasi->status==1 || $reservasi->status==2) disabled @endif>
                             </form>
@@ -75,13 +72,12 @@
                                 <li class="active">
                                     <a href="#tab_1" data-toggle="tab"> Details </a>
                                 </li>
-
                             </ul>
                             <div class="tab-content">
                                 <div class="tab-pane active" id="tab_1">
                                     <div class="row">
                                         <div class="col-md-6 col-sm-12">
-                                            <div class="portlet yellow-crusta box">
+                                            <div class="portlet dark box">
                                                 <div class="portlet-title">
                                                     <div class="caption">
                                                         <i class="fa fa-cogs"></i>Booking Details
@@ -112,6 +108,8 @@
                                                                 <span class="label label-warning"> Not Confirmed </span>
                                                             @elseif($reservasi->status==1)
                                                                 <span class="label label-success"> Confirmed </span>
+                                                            @elseif($reservasi->status==3)
+                                                                <span class="label label-danger"> Canceled by User </span>
                                                             @else
                                                                 <span class="label label-danger"> Canceled </span>
                                                             @endif
@@ -127,6 +125,19 @@
                                                             Rp. {{ number_format($total,0,'.','.') }} </div>
                                                     </div>
                                                     <div class="row static-info">
+                                                        <div class="col-md-5 name"> Promo Code Used:</div>
+                                                        <div class="col-md-7 value">{{ $reservasi->promo->code }}</div>
+                                                    </div>
+                                                    <div class="row static-info">
+                                                        <div class="col-md-5 name"> Discount:</div>
+                                                        <div class="col-md-7 value">{{ $reservasi->promo->reward*100 }}%</div>
+                                                    </div>
+                                                    <div class="row static-info">
+                                                        <div class="col-md-5 name"> Grand Total(After Discount):</div>
+                                                        <div class="col-md-7 value">
+                                                            Rp. {{ number_format($reservasi->total,0,'.','.') }} </div>
+                                                    </div>
+                                                    <div class="row static-info">
                                                         <div class="col-md-5 name"> Payment Information:</div>
                                                         <div class="col-md-7 value"> Bank Transfer
                                                             (to {{ strtoupper($reservasi->transfer_to) }})
@@ -136,7 +147,7 @@
                                             </div>
                                         </div>
                                         <div class="col-md-6 col-sm-12">
-                                            <div class="portlet blue-hoki box">
+                                            <div class="portlet dark box">
                                                 <div class="portlet-title">
                                                     <div class="caption">
                                                         <i class="fa fa-cogs"></i>Guest Information
@@ -164,7 +175,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-md-12 col-sm-12">
-                                            <div class="portlet grey-cascade box">
+                                            <div class="portlet dark box">
                                                 <div class="portlet-title">
                                                     <div class="caption">
                                                         <i class="fa fa-cogs"></i>Room List
@@ -296,6 +307,11 @@
                                                         Rp. {{ number_format($total,0,'.','.') }} </div>
                                                 </div>
                                                 <div class="row static-info align-reverse">
+                                                    <div class="col-md-8 name"> Sub Total (After Discount):</div>
+                                                    <div class="col-md-3 value">
+                                                        Rp. {{ number_format($reservasi->total,0,'.','.') }} </div>
+                                                </div>
+                                                <div class="row static-info align-reverse">
                                                     <div class="col-md-8 name"> Unique Number:</div>
                                                     <div class="col-md-3 value"> {{ $unik }} </div>
                                                 </div>
@@ -303,7 +319,7 @@
                                                     <div class="col-md-8 name"> Total Paid:</div>
                                                     @if($reservasi->status==1)
                                                         <div class="col-md-3 value">
-                                                            Rp. {{ number_format($total+$unik,0,'.','.') }} </div>
+                                                            Rp. {{ number_format($reservasi->total+$unik,0,'.','.') }} </div>
                                                     @else
                                                         <div class="col-md-3 value"> Rp. 0</div>
                                                     @endif
@@ -359,6 +375,7 @@
                     },
                     dataType: 'json',
                     success: function (result) {
+                        console.log(result);
                         var invalid_dates = result;
                         tanggal.daterangepicker({
                             locale: {

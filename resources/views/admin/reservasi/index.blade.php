@@ -6,6 +6,7 @@
     <link href="{{ asset('admin-assets/plugins/bootstrap-datepicker/css/bootstrap-datepicker3.min.css') }}"
           rel="stylesheet"
           type="text/css"/>
+
     <style>
         td {
             max-width: 100px;
@@ -41,267 +42,93 @@
                 </ul>
             </div>
         @endif
-        <div class="page-bar">
-            <ul class="page-breadcrumb">
-                <li>
-                    <i class="icon-home"></i>
-                    <a href="index.html">Home</a>
-                    <i class="fa fa-angle-right"></i>
-                </li>
-                <li>
-                    <a href="#">Reservasi</a>
-                </li>
-            </ul>
-        </div>
+        <ul class="page-breadcrumb breadcrumb">
+            <li>
+                <a href="index.html">Home</a>
+                <i class="fa fa-circle"></i>
+            </li>
+            <li>
+                <span class="active">Reservasi</span>
+            </li>
+        </ul>
         <!-- END PAGE HEADER-->
         <div class="row">
             <div class="col-md-12">
-                <!-- BEGIN BORDERED TABLE PORTLET-->
-                <div class="portlet light portlet-fit ">
-                    <div class="portlet-title">
+                <div class="portlet light bordered">
+                    <div class="portlet-title tabbable-line">
                         <div class="caption">
-                            <i class="icon-info font-blue"></i>
-                            <span class="caption-subject font-blue sbold uppercase">List Reservasi Pending</span>
+                            <i class="icon-share font-dark"></i>
+                            <span class="caption-subject font-dark bold uppercase">List Reservasi</span>
                         </div>
-                        <div class="actions">
-
-
-                        </div>
-                        <ul class="pagination pagination-circle" style="margin-right: 10px">
-                            {{--{{ $reservasi->appends(['expired'=> $reservasi_expired->currentPage(),'completed'=>$reservasi_completed->currentPage()])->links() }}
-                            {{ $reservasi_expired->appends(['new'=> $reservasi->currentPage(),'completed'=>$reservasi_completed->currentPage()])->links() }}
-                            {{ $reservasi_completed->appends(['new'=> $reservasi->currentPage(),'expired'=>$reservasi_expired->currentPage()])->links() }}--}}
-                            <li><a href="{{ $reservasi->url(1) }}">«</a></li>
-                            @if($reservasi->lastPage() > 1)
-                                @for($i = 1; $i <= $reservasi->lastPage(); $i++)
-                                    <li><a href="{{ $reservasi->url($i) }}">{{ $i }}</a></li>
-                                @endfor
-                            @endif
-                            <li><a href="{{ $reservasi->url($reservasi->lastPage()) }}">»</a></li>
+                        <ul class="nav nav-tabs">
+                            <li>
+                                <a href="#portlet_tab3" data-toggle="tab" > Completed </a>
+                            </li>
+                            <li>
+                                <a href="#portlet_tab2" data-toggle="tab" > Expired </a>
+                            </li>
+                            <li class="active">
+                                <a href="#portlet_tab1" data-toggle="tab" > New Reservation </a>
+                            </li>
                         </ul>
-
                     </div>
                     <div class="portlet-body">
-                        <div class="table-scrollable table-scrollable-borderless">
-                            <table class="table table-hover table-light">
-                                <thead>
-                                <tr class="uppercase">
-                                    <th> Booking ID#</th>
-                                    <th> Guest</th>
-                                    <th> Booking Created</th>
-                                    <th> Payment Status</th>
-                                    <th> Action</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($reservasi as $item)
-                                    <tr>
-                                        <td>{{ $item->id }}</td>
-                                        <td> {{ $item->nama }}</td>
-                                        <td> @php
-                                                $created = new \Carbon\Carbon($item->created_at);
-            $now = \Carbon\Carbon::now();
-            $difference = ($created->diff($now)->days < 1) ? 'today' : $created->diffForHumans($now);
-                                            @endphp
-                                            {{ $difference }}</td>
-                                        <td>
-                                            @if($item->status==0)
-                                                <span class="label label-sm label-warning"> Not Confirmed </span>
-                                            @elseif($item->status==1)
-                                                <span class="label label-sm label-success"> Confirmed </span>
-                                            @else
-                                                <span class="label label-sm label-danger"> Canceled </span>
-                                            @endif
-                                        </td>
-
-                                        <td>
-                                            <form action="{{ route('payment-confirmation') }}"
-                                                  method="post" class="delete">
-                                                <a type="button"
-                                                   href="{{ route('detail-reservasi', ['reservasi_id'=>$item->id]) }}"
-                                                   class="btn btn-outline blue btn-xs btn-delete">
-                                                    <i
-                                                            class="fa fa-info"></i> Details
-                                                </a>
-                                                {{ csrf_field() }}
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
+                        <div class="tab-content">
+                            <div class="tab-pane active" id="portlet_tab1">
+                                <div class="table-scrollable table-scrollable-borderless">
+                                    <table class="table table-striped table-bordered table-hover table-checkable order-column" id="reservasi_table_new">
+                                        <thead>
+                                        <tr>
+                                            <th> Booking ID# </th>
+                                            <th> Guest </th>
+                                            <th> Booking Created </th>
+                                            <th> Payment Status </th>
+                                            <th> Actions </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="portlet_tab2">
+                                <div class="table-scrollable table-scrollable-borderless">
+                                    <table class="table table-striped table-bordered table-hover table-checkable order-column" id="reservasi_table_exp">
+                                        <thead>
+                                        <tr>
+                                            <th> Booking ID# </th>
+                                            <th> Guest </th>
+                                            <th> Booking Created </th>
+                                            <th> Payment Status </th>
+                                            <th> Actions </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="tab-pane" id="portlet_tab3">
+                                <div class="table-scrollable table-scrollable-borderless">
+                                    <table class="table table-striped table-bordered table-hover table-checkable order-column" id="reservasi_table_complete">
+                                        <thead>
+                                        <tr>
+                                            <th> Booking ID# </th>
+                                            <th> Guest </th>
+                                            <th> Booking Created </th>
+                                            <th> Payment Status </th>
+                                            <th> Actions </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody></tbody>
+                                    </table>
+                                </div>
+                            </div>
                         </div>
                     </div>
-
                 </div>
-                <!-- END BORDERED TABLE PORTLET-->
-            </div>
-            <div class="col-md-12">
                 <!-- BEGIN BORDERED TABLE PORTLET-->
-                <div class="portlet light portlet-fit ">
-                    <div class="portlet-title">
-                        <div class="caption">
-                            <i class="icon-info font-red"></i>
-                            <span class="caption-subject font-red sbold uppercase">List Reservasi Expired</span>
-                        </div>
-                        <div class="actions">
-
-
-                        </div>
-                        <ul class="pagination pagination-circle" style="margin-right: 10px">
-                            <li><a href="{{ $reservasi_expired->url(1) }}">«</a></li>
-                            @if($reservasi_expired->lastPage() > 1)
-                                @for($i = 1; $i <= $reservasi_expired->lastPage(); $i++)
-                                    <li><a href="{{ $reservasi_expired->url($i) }}">{{ $i }}</a></li>
-                                @endfor
-                            @endif
-                            <li><a href="{{ $reservasi_expired->url($reservasi_expired->lastPage()) }}">»</a></li>
-                        </ul>
-
-                    </div>
-                    <div class="portlet-body">
-                        <div class="table-scrollable table-scrollable-borderless">
-                            <table class="table table-hover table-light">
-                                <thead>
-                                <tr class="uppercase">
-                                    <th> Booking ID#</th>
-                                    <th> Guest</th>
-                                    <th> Booking Created</th>
-                                    <th> Payment Status</th>
-                                    <th> Action</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($reservasi_expired as $item)
-                                    <tr>
-                                        <td>{{ $item->id }}</td>
-                                        <td> {{ $item->nama }}</td>
-                                        <td> @php
-                                                $created = new \Carbon\Carbon($item->created_at);
-            $now = \Carbon\Carbon::now();
-            $difference = ($created->diff($now)->days < 1) ? 'today' : $created->diffForHumans($now);
-                                            @endphp
-                                            {{ $difference }}</td>
-                                        <td>
-                                            @if($item->status==0)
-                                                <span class="label label-sm label-warning"> Not Confirmed </span>
-                                            @elseif($item->status==1)
-                                                <span class="label label-sm label-success"> Confirmed </span>
-                                            @else
-                                                <span class="label label-sm label-danger"> Canceled </span>
-                                            @endif
-                                        </td>
-
-                                        <td>
-                                            <form action="{{ route('payment-confirmation') }}"
-                                                  method="post" class="delete">
-                                                <input type="hidden" value="{{ $item->id }}" name="id">
-                                                <input type="hidden" value="00{{ $item->id }}">
-                                                <a type="button"
-                                                   href="{{ route('detail-reservasi', ['reservasi_id'=>$item->id]) }}"
-                                                   class="btn btn-outline blue btn-xs btn-delete">
-                                                    <i
-                                                            class="fa fa-info"></i> Details
-                                                </a>
-                                                <input type="hidden" name="btn" value="Cancel Booking">
-                                                <button type="submit"
-                                                        class="btn btn-outline red btn-xs btn-delete" >
-                                                    <i
-                                                            class="fa fa-close"></i> Cancel
-                                                </button>
-                                                {{ csrf_field() }}
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                </div>
                 <!-- END BORDERED TABLE PORTLET-->
             </div>
-            <div class="col-md-12">
-                <!-- BEGIN BORDERED TABLE PORTLET-->
-                <div class="portlet light portlet-fit ">
-                    <div class="portlet-title">
-                        <div class="caption">
-                            <i class="icon-info font-green"></i>
-                            <span class="caption-subject font-green sbold uppercase">List Reservasi Completed</span>
-                        </div>
-                        <div class="actions">
 
-
-                        </div>
-                        <ul class="pagination pagination-circle" style="margin-right: 10px">
-                            <li><a href="{{ $reservasi_completed->url(1) }}">«</a></li>
-                            @if($reservasi_completed->lastPage() > 1)
-                                @for($i = 1; $i <= $reservasi_completed->lastPage(); $i++)
-                                    <li><a href="{{ $reservasi_completed->url($i) }}">{{ $i }}</a></li>
-                                @endfor
-                            @endif
-                            <li><a href="{{ $reservasi_completed->url($reservasi_completed->lastPage()) }}">»</a></li>
-                        </ul>
-
-                    </div>
-                    <div class="portlet-body">
-                        <div class="table-scrollable table-scrollable-borderless">
-                            <table class="table table-hover table-light">
-                                <thead>
-                                <tr class="uppercase">
-                                    <th> Booking ID#</th>
-                                    <th> Guest</th>
-                                    <th> Booking Created</th>
-                                    <th> Payment Status</th>
-                                    <th> Action</th>
-                                </tr>
-                                </thead>
-                                <tbody>
-                                @foreach($reservasi_completed as $item)
-                                    <tr>
-                                        <td>{{ $item->id }}</td>
-                                        <td> {{ $item->nama }}</td>
-                                        <td> @php
-                                                $created = new \Carbon\Carbon($item->created_at);
-            $now = \Carbon\Carbon::now();
-            $difference = ($created->diff($now)->days < 1) ? 'today' : $created->diffForHumans($now);
-                                            @endphp
-                                            {{ $difference }}</td>
-                                        <td>
-                                            @if($item->status==0)
-                                                <span class="label label-sm label-warning"> Not Confirmed </span>
-                                            @elseif($item->status==1)
-                                                <span class="label label-sm label-success"> Confirmed </span>
-                                            @else
-                                                <span class="label label-sm label-danger"> Canceled </span>
-                                            @endif
-                                        </td>
-
-                                        <td>
-                                            <form action="{{ route('payment-confirmation') }}"
-                                                  method="post" class="delete">
-
-                                                <a type="button"
-                                                   href="{{ route('detail-reservasi', ['reservasi_id'=>$item->id]) }}"
-                                                   class="btn btn-outline blue btn-xs btn-delete">
-                                                    <i
-                                                            class="fa fa-info"></i> Details
-                                                </a>
-
-                                                {{ csrf_field() }}
-                                            </form>
-                                        </td>
-                                    </tr>
-                                @endforeach
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-
-                </div>
-                <!-- END BORDERED TABLE PORTLET-->
-            </div>
         </div>
     </div>
     <div class="modal fade" id="edit-pengumuman" tabindex="-1" role="edit-pengumuman" aria-hidden="true">
@@ -357,9 +184,61 @@
 @section('plugins_js')
     <script src="{{ asset('admin-assets/plugins/bootstrap-datepicker/js/bootstrap-datepicker.min.js') }}"
             type="text/javascript"></script>
+    <script src="//cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"
+            type="text/javascript"></script>
+    <script src="//cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"
+            type="text/javascript"></script>
     <script>
 
         $(document).ready(function (e) {
+            $('#reservasi_table_new').DataTable({
+                pagingType: "full_numbers",
+                paging: true,
+                pageLength: 25,
+                order: [[ 2, "desc" ]],
+                processing: true,
+                serverSide: true,
+                ajax: '{{ route('dt-reservasi',0) }}',
+                columns: [
+                    {data: 'id', name: 'id'},
+                    {data: 'nama', name: 'nama'},
+                    {data: 'created_at', name: 'created_at'},
+                    {data: 'status', name: 'status', orderable: false, searchable: false},
+                    {data: 'action', name: 'action', orderable: false, searchable: false}
+                ]
+            });
+            $('#reservasi_table_exp').css('width', '100%').DataTable({
+                pagingType: "full_numbers",
+                paging: true,
+                pageLength: 25,
+                order: [[ 2, "desc" ]],
+                processing: true,
+                serverSide: true,
+                ajax: '{{ route('dt-reservasi',2) }}',
+                columns: [
+                    {data: 'id', name: 'id'},
+                    {data: 'nama', name: 'nama'},
+                    {data: 'created_at', name: 'created_at'},
+                    {data: 'status', name: 'status', orderable: false, searchable: false},
+                    {data: 'action', name: 'action', orderable: false, searchable: false}
+                ]
+            });
+            $('#reservasi_table_complete').css('width', '100%').DataTable({
+                pagingType: "full_numbers",
+                paging: true,
+                pageLength: 25,
+                order: [[ 2, "desc" ]],
+                processing: true,
+                serverSide: true,
+                ajax: '{{ route('dt-reservasi',1) }}',
+                columns: [
+                    {data: 'id', name: 'id'},
+                    {data: 'nama', name: 'nama'},
+                    {data: 'created_at', name: 'created_at'},
+                    {data: 'status', name: 'status', orderable: false, searchable: false},
+                    {data: 'action', name: 'action', orderable: false, searchable: false}
+                ]
+            });
             $('.datepicker').datepicker({
                 autoclose: true
             });

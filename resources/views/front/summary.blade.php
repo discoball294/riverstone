@@ -80,15 +80,50 @@
                         <!-- accordion 2 start-->
                         <dl class="accordion">
                             <dt>
-                                <a href="" class="active">Payment</a>
+                                <a href="">Use Coupon Code</a>
                             </dt>
-                            <dd style="display: block;">
+                            <dd style="display: none;">
+                                <form class="form-inline coupon-form" method="post"
+                                      action="{{ route('check-kode-promo') }}">
+                                    @foreach(['danger','success','warning','info'] as $msg)
+                                        @if(Session::has($msg))
+                                            <div class="alert alert-{{ $msg }}" role="alert">
+                                                <button type="button" class="close" data-dismiss="alert"
+                                                        aria-label="Close">
+                                                    <span aria-hidden="true">×</span></button>
+                                                <i class="fa fa-lg fa-times-circle"></i> {{ Session::get($msg) }}
+                                            </div>
+                                        @endif
+                                    @endforeach
+                                    <div class="form-group">
+                                        <label>Enter Your Coupon Code</label>
+                                        <input type="text" name="code" class="form-control width-300">
+                                    </div>
+                                    {{ csrf_field() }}
+                                    <button type="submit" class="btn btn-small btn-dark-solid">Apply Coupon</button>
+
+                                </form>
+                            </dd>
+
+                            <dt>
+                                <a href="">Payment</a>
+                            </dt>
+                            <dd style="display: none;">
                                 <ul class="portfolio-meta m-bot-30">
                                     <li><span> Sub Total </span> Rp. {{ number_format($total,0,'.','.') }}</li>
+                                    <li><span> Discount </span>
+                                        @php($diskon = 0)
+                                        @if(Session::has('reward'))
+                                            @php($diskon = $total * Session::get('reward'))
+                                            Rp. {{ $diskon }}
+                                        @else
+                                            Rp. 0
+                                        @endif
+                                    </li>
                                     <li><span> Unique Number	 </span> {{ $unik }}</li>
                                     <li><span><strong class="cart-total"> Total </strong></span> <strong
                                                 class="cart-total">Rp.
-                                            {{ number_format($total+$unik,0,'.','.') }} </strong></li>
+                                            {{ number_format(($total-$diskon)+$unik,0,'.','.') }} </strong></li>
                                     <li class="text-danger">Pembayaran Anda otomatis terkonfirmasi apabila mentransfer
                                         sesuai jumlah diatas
                                     </li>
@@ -175,6 +210,15 @@
                                 {{ csrf_field() }}
                                 <input type="hidden" value="{{ $summary->id }}" name="id">
                                 <input type="hidden" value="{{ $unik }}" name="unik">
+                                @if(Session::has('promo_id'))
+                                    <input type="hidden" name="reward" value="{{ Session::get('promo_id')  }}">
+                                    @php($diskon = $summary->total - ($summary->total * Session::get('reward')))
+                                    <input type="hidden" name="total" value="{{ $diskon  }}">
+
+                                @else
+                                    <input type="hidden" name="reward" value="1">
+                                    <input type="hidden" name="total" value="{{ $summary->total }}">
+                                @endif
                                 <input type="hidden" id="bank" name="bank" value="bca">
                                 <button type="submit" class="btn btn-medium btn-dark-solid pull-right "> Selesai
                                 </button>

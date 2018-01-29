@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Pengumuman;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
 class PengumumanController extends Controller
@@ -27,7 +28,7 @@ class PengumumanController extends Controller
             $pengumuman = new Pengumuman();
             $pengumuman->judul = $request['judul'];
             $pengumuman->pengumuman = htmlspecialchars($request['pengumuman']);
-            $pengumuman->tanggal = $request['tanggal'];
+            $pengumuman->tanggal = Carbon::now()->addDay($request['tanggal'])->format('Y-m-d');
             $pengumuman->status = 'active';
             if ($pengumuman->save()) {
                 $request->session()->flash('alert-success', 'Pengumuman telah ditambahkan');
@@ -49,15 +50,13 @@ class PengumumanController extends Controller
         $validator = \Validator::make($request->all(), [
             'judul' => 'required|max:100',
             'pengumuman' => 'required|max:255',
-            'tanggal' => 'required',
-            'edit_status' => 'required'
+            'tanggal' => 'required'
         ]);
         if ($validator->passes()) {
             $pengumuman = Pengumuman::find($id);
             $pengumuman->judul = $request['judul'];
             $pengumuman->pengumuman = htmlspecialchars($request['pengumuman']);
             $pengumuman->tanggal = $request['tanggal'];
-            $pengumuman->status = $request['edit_status'];
             if ($pengumuman->save()) {
                 $request->session()->flash('alert-success', 'Pengumuman telah disimpan');
                 return redirect()->back();

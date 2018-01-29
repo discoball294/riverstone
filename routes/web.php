@@ -10,7 +10,11 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
+Route::get('cancel',function (){
+    return view('front.cancel-book');
+})->name('cancel');
+Route::post('find',['uses'=>'ReservationController@findReservation','as'=>'find-reservasi']);
+Route::post('cancel-book',['uses'=>'ReservationController@cancelByUser','as'=>'cancel-user']);
 Route::get('/', ['uses' => 'IndexController@index', 'as' => 'index']);
 Route::get('/room/{room_id}', ['uses' => 'IndexController@room', 'as' => 'room']);
 Route::group(['prefix' => '/login'], function (){
@@ -20,6 +24,7 @@ Route::group(['prefix' => '/login'], function (){
         'as' => 'post.login'
     ]);
 });
+Route::post('kode-promo/check',['uses'=>'PromoCodeController@checkCode','as'=>'check-kode-promo']);
 Route::get('/logout', [
     'uses' => 'Auth\LoginController@logout',
     'as' => 'logout'
@@ -49,6 +54,7 @@ Route::post('/confirmation', [
 ]);
 
 Route::group(['middleware' => 'auth','prefix' => '/admin'], function (){
+    Route::get('/data-reservasi/{status}', ['uses' => 'ReservationController@reservationDT', 'as' => 'dt-reservasi']);
     Route::get('/', ['uses' => 'IndexController@adminIndex', 'as' => 'admin-index']);
     Route::resource('pengumuman','PengumumanController');
     Route::resource('room-categories', 'RoomCategoryController');
@@ -58,7 +64,8 @@ Route::group(['middleware' => 'auth','prefix' => '/admin'], function (){
     Route::resource('layanan','LayananController');
     Route::resource('banner', 'BannerController');
     Route::resource('restaurant', 'RestaurantController');
-    Route::resource('user', 'UserController');
+    //Route::resource('user', 'UserController');
+    Route::resource('kode-promo', 'PromoCodeController');
     Route::get('/admin-reservation', [
         'uses' => 'ReservationController@adminReservationIndex',
         'as' => 'admin-reservation'
@@ -79,4 +86,7 @@ Route::group(['middleware' => 'auth','prefix' => '/admin'], function (){
         'uses' => 'ReservationController@changeDate',
         'as' => 'change-date'
     ]);
+});
+Route::get('debugging',function (){
+    dd(\App\Reservasi::with('roomReservation.roomType')->paginate(10));
 });

@@ -20,7 +20,7 @@ class DatabaseSeeder extends Seeder
         $this->call(TipeContactSeeder::class);
         $this->call(ContactSeeder::class);
         */
-        $this->call(BannerSeeder::class);
+        $this->call(ReservationSeeder::class);
 
     }
 }
